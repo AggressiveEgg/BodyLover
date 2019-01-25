@@ -17,6 +17,7 @@ public class Controller : MonoBehaviour
     string joyRight;
     string joyAtk;
 
+    string Horizontal;
 
     KeyCode kcJump;
     KeyCode kcLeft;
@@ -38,10 +39,10 @@ public class Controller : MonoBehaviour
 
     public Controller()
     {
-        jump = "a";
-        left = "f";
-        right = "g";
-        atk = "s";
+        jump = "w";
+        left = "a";
+        right = "d";
+        atk = "spacebar";
 
       
         //KeyCode.Joystick1Button18;
@@ -57,6 +58,7 @@ public class Controller : MonoBehaviour
         kcJump = (KeyCode)System.Enum.Parse(typeof(KeyCode), joyJump);
         kcLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), joyLeft);
         kcRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), joyRight);
+        Horizontal = "Horizontal" + index;
     }
 
 
@@ -80,7 +82,7 @@ public class Controller : MonoBehaviour
 
     public void Left(System.Action action)
     {
-        if (Input.GetKey(left) || (Input.GetKey(kcLeft)) || Input.GetAxis("Horizontal") < 0)
+        if (Input.GetKey(left) || (Input.GetKey(kcLeft)) || Input.GetAxis(Horizontal) < -0.1)
         {
             if (action != null)
             { action(); }
@@ -93,7 +95,7 @@ public class Controller : MonoBehaviour
     }
     public void Right(System.Action action)
     {
-        if (Input.GetKey(right) || Input.GetKey(kcRight) || Input.GetAxis("Horizontal") > 0)
+        if (Input.GetKey(right) || Input.GetKey(kcRight) || Input.GetAxis(Horizontal) > 0.1)
         {
             if (action != null)
             { action(); }
