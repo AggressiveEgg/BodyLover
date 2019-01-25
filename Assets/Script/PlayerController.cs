@@ -1,39 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using XInputDotNetPure;
 
 
-public class PlayerController : MonoBehaviour {
+
+public class PlayerController : MonoBehaviour
+{
 
 
-    
+
     Controller control;
     [Header("Setting")]
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
     [SerializeField] int playerindex;
 
-    
+
     [SerializeField] GameObject player;
 
 
     bool isJump;
     Rigidbody rb;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         control = new Controller();
         rb = GetComponent<Rigidbody>();
-        control.PIndex = (PlayerIndex)playerindex;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        control.SetPlayerJoyStick(playerindex);
+        Debug.Log(control);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         control.CheckGamepadState();
         ForceToDirection();
         RotateTarget();
 
-	}
+    }
 
 
     public void ForceToDirection()
@@ -48,11 +52,11 @@ public class PlayerController : MonoBehaviour {
             }
         });
 
-        
+
     }
     public void RotateTarget()
     {
-        if (Mathf.Abs( rb.velocity.x )< 100)
+        if (Mathf.Abs(rb.velocity.x) < 100)
         {
             control.Left(() =>
             {
@@ -68,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 
     public void OnCollisionEnter(Collision col)
     {
-        if(col.gameObject.tag == "ground"||col.gameObject.tag =="Player")
+        if (col.gameObject.tag == "ground" || col.gameObject.tag == "Player")
         {
             HitFunction();
         }
