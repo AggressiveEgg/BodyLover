@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject player;
 
-
+    Event e;
     bool isJump;
     Rigidbody rb;
     // Use this for initialization
@@ -27,7 +27,10 @@ public class PlayerController : MonoBehaviour
         control = new Controller();
         rb = GetComponent<Rigidbody>();
         control.SetPlayerJoyStick(playerindex);
-        Debug.Log(control);
+       
+         e = new Event();
+        
+            
     }
 
     // Update is called once per frame
@@ -36,7 +39,7 @@ public class PlayerController : MonoBehaviour
         control.CheckGamepadState();
         ForceToDirection();
         RotateTarget();
-
+        
     }
 
 
@@ -66,7 +69,7 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce(speed, 0, 0);
             });
-            Debug.Log("Velocity " + rb.velocity.x);
+            
         }
     }
 
