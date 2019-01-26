@@ -108,8 +108,8 @@ public class Box : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             if (collision.gameObject.transform.position.y <= this.gameObject.transform.position.y 
-                && (this.gameObject.transform.localPosition.x > collision.gameObject.transform.position.x - this.gameObject.GetComponent<Collider>().bounds.size.x / 2)
-                && (this.gameObject.transform.localPosition.x < collision.gameObject.transform.position.x + this.gameObject.GetComponent<Collider>().bounds.size.x / 2))
+                && (this.gameObject.transform.localPosition.x > collision.gameObject.transform.position.x - collision.gameObject.GetComponent<Collider>().bounds.size.x / 2)
+                && (this.gameObject.transform.localPosition.x < collision.gameObject.transform.position.x + collision.gameObject.GetComponent<Collider>().bounds.size.x / 2))
             {
                 //print("scale box : " + this.gameObject.GetComponent<Collider>().bounds.size);
                 //print("pos box : " + this.gameObject.transform.localPosition);
