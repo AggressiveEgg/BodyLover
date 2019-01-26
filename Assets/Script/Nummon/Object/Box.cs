@@ -88,6 +88,7 @@ public class Box : MonoBehaviour
         }
         else
         {
+            BoxBroken();
             vfxManager.instance.PlayVFX("BoxBroken",this.transform.position,1.0f);
             refresh();
         }
@@ -139,8 +140,8 @@ public class Box : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             if (collision.gameObject.transform.position.y <= this.gameObject.transform.position.y 
-                && (this.gameObject.transform.position.x > collision.gameObject.transform.position.x - collision.gameObject.GetComponent<Collider>().bounds.size.x / 2)
-                && (this.gameObject.transform.position.x < collision.gameObject.transform.position.x + collision.gameObject.GetComponent<Collider>().bounds.size.x / 2))
+                /*&& (this.gameObject.transform.position.x > collision.gameObject.transform.position.x - collision.gameObject.GetComponent<Collider>().bounds.size.x / 2)
+                && (this.gameObject.transform.position.x < collision.gameObject.transform.position.x + collision.gameObject.GetComponent<Collider>().bounds.size.x / 2)*/)
             {
                 //print("scale box : " + this.gameObject.GetComponent<Collider>().bounds.size);
                 //print("pos box : " + this.gameObject.transform.localPosition);

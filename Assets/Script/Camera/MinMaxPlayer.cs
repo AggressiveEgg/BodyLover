@@ -36,7 +36,7 @@ public class MinMaxPlayer : MonoBehaviour {
             }
 
 
-           else if (p.gameObject.transform.position.y < low)
+           if (p.gameObject.transform.position.y < low)
             {
                 min = p.gameObject;
                 low = p.gameObject.transform.position.y;
