@@ -10,9 +10,8 @@ public class BoxEditor : Editor
         DrawDefaultInspector();
 
         Box myScript = (Box)target;
-        if (GUILayout.Button("Build Object"))
-        {
+        
             myScript.InitBox();
-        }
+        
     }
 }
