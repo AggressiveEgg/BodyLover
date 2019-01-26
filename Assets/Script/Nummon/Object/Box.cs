@@ -52,6 +52,7 @@ public class Box : MonoBehaviour
 
         if(boxInfo.hp <= 0)
         {
+            BoxBroken();
             OnShow(false);
         }
     }
@@ -143,6 +144,30 @@ public class Box : MonoBehaviour
                 BoxHit(1);
             }
         }
+    }
+
+    void BoxBroken()
+    {
+        Vector3 Dir;
+        if(Random.Range(0,100) %2 == 0)
+        {
+            Dir = Vector3.right;
+        }
+        else
+        {
+            Dir = Vector3.left;
+        }
+        float range = 2.0f;
+
+        RaycastHit hit;
+        if (Physics.Raycast(this.transform.position, Vector3.up, out hit, range))
+        {
+            if (hit.collider.tag == "Player")
+            {
+                hit.collider.GetComponent<PlayerController>().Stun(Dir);
+            }
+        }
+        Debug.DrawRay(this.transform.position, Vector3.up * range, Color.red);
     }
 
     private void OnCollisionExit(Collision collision)

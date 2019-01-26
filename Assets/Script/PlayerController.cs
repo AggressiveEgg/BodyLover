@@ -237,4 +237,44 @@ public class PlayerController : MonoBehaviour
         isAction = false;
         yield return null;
     }
+
+    public void Stun(Vector3 dir)
+    {
+
+        animation.RotateAttack();
+        if (AttackCorotine != null)
+            StopCoroutine(AttackCorotine);
+        AttackCorotine = StartCoroutine(Stuning(dir));
+    }
+
+    IEnumerator Stuning(Vector3 dir)
+    {
+        isAction = true;
+        animation.resetAnim();
+        animation.playAnimTriiger("IsHit");
+        animation.playAnimBool("IsStun",true);
+        float Maxtime = CommonConfig.StunTime;
+        float time = CommonConfig.StunTime;
+        while (true)
+        {
+            if (time <= 0)
+            {
+                break;
+            }
+            else
+            {
+                time -= Time.deltaTime;
+            }
+
+            if (time > Maxtime * 0.75f)
+            {
+                this.rb.velocity = (dir + Vector3.up) * 10.0f * time;
+            }
+
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        animation.playAnimBool("IsStun", false);
+        isAction = false;
+        yield return null;
+    }
 }
