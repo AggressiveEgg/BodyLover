@@ -84,7 +84,7 @@ public class Box : MonoBehaviour
         }
         else
         {
-            
+            vfxManager.instance.PlayVFX("BoxBroken",this.transform.position,1.0f);
             refresh();
         }
         setMaterials(boxInfo.Active);

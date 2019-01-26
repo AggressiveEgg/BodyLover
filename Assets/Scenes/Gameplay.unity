@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4444821, g: 0.49396926, b: 0.573276, a: 1}
+  m_IndirectSpecularColor: {r: 0.44448206, g: 0.49396896, b: 0.5732753, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14103,6 +14103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 439606786}
   - component: {fileID: 439606787}
+  - component: {fileID: 439606788}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -14138,6 +14139,27 @@ MonoBehaviour:
   PlayerPoints: []
   GameStart: 1
   gameState: 0
+--- !u!114 &439606788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 439606785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898fde22055f0426296cca81af7a0808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxInfos:
+  - name: Attack
+    VFXObject: {fileID: 1680861830479998, guid: fcdeb8de2c439a1449a6b8b1293b8677,
+      type: 2}
+  - name: Jump
+    VFXObject: {fileID: 1224582589870622, guid: a9d812b85c9314a66871d1960c31af82,
+      type: 2}
+  - name: BoxBroken
+    VFXObject: {fileID: 1942851514536100, guid: 136773cd76a284c2aa4d0f5cf3f6e5e2,
+      type: 2}
 --- !u!4 &439947502 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4850448729296994, guid: 80ba2754854f44b0dabd3243484d6bf5,
