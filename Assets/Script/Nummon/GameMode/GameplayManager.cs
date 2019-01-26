@@ -4,6 +4,8 @@ using UnityEngine;
 public enum GameState
 {
     Start,
+    Select,
+    CutScene,
     Playing,
     End
 }
@@ -23,6 +25,7 @@ public class GameplayManager : MonoBehaviour
         init();
         FindPlayer();
         gameState = GameState.Start;
+        GameStart = false;
 	}
 
     void FindPlayer()

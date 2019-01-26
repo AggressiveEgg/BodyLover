@@ -2,48 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MenuState
-{
-    Start,
-    Select,
-    CutScene,
-    Playing
-}
+
 
 public class MenuController : MonoBehaviour {
 
 
     static public MenuController Instance;
-    public MenuState menustate = MenuState.Start;
+    [SerializeField] bool isSkipSelect;
     [SerializeField] RectTransform StartMenu;
     [SerializeField] RectTransform SelectCanvas;
     [SerializeField] RectTransform CutSceneCanvas;
-
-    [SerializeField] CharacterSelect[] chaSeclet;
+    [SerializeField] int countDown;
+    public CharacterSelect[] chaSeclet;
     [SerializeField] Color[] imgColor;
-    public Texture[] chaColor;
+    public Material[] chaColor;
+    public GameplayManager GM;
+    public int totalPlayer;
+    public int readyPlayer;
+    Vector3 OffscreenPos = new Vector2(1280, 0);
 
-    Vector3 OffscreenPos = new Vector2(1280,0);
-
+    int count;
     private void Awake()
     {
-     
+
         Instance = this;
     }
-  
+
 
 
     // Use this for initialization
-    void Start () {
-        ShowStart();
-	}
-
-    void InitMenu()
-    {
-
+    void Start() {
+        Reset();
     }
 
-    public Texture GetChaColor(int index)
+    void Reset()
+    {
+        ShowStart();
+        count = countDown;
+        GM.gameState = GameState.Start;
+    }
+
+    public Material GetChaColor(int index)
     {
         return chaColor[index];
     }
@@ -55,15 +54,25 @@ public class MenuController : MonoBehaviour {
     {
         return imgColor.Length;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		if(menustate == MenuState.Start)
+
+    // Update is called once per frame
+    void Update() {
+        if (GM.gameState == GameState.Start)
         {
             PressToStart();
         }
-        
-	}
+
+    }
+   public void StartGame()
+    {
+        if (readyPlayer >= totalPlayer)
+        {
+            if (totalPlayer > 1)
+                CountDown();
+
+        }
+
+    }
 
     public void ShowStart()
     {
@@ -94,11 +103,39 @@ public class MenuController : MonoBehaviour {
     void PressToStart()
     {
         chaSeclet[0].control.Item(() =>
-        {
+        {if(isSkipSelect)
+            {
+                GM.GameStart = true;
+                GM.gameState = GameState.Playing;
+                gameObject.SetActive(false);
+            }
             ShowSelect();
-            menustate = MenuState.Select;
+
+            GM.gameState = GameState.Select;
 
         });
+
+    }
+    IEnumerator Count()
+    {
+        yield return new WaitForSeconds(1);
+        count--;
+        if(count >0)
+            StartCoroutine(Count());
+        else
+        {
+            StartPlaying(); 
+            GM.gameState = GameState.Start;
+            GM.GameStart = true;
+            InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
+            InGameMenuController.Instance.StartUpdateGuage();
+           
+        }
+
+    }
+    public void CountDown()
+    {
+        StartCoroutine(Count());
 
     }
 }
