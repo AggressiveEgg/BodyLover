@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MenuController : MonoBehaviour {
 
-
+    public GameObject followobj;
     static public MenuController Instance;
     [SerializeField] bool isSkipSelect;
     [SerializeField] RectTransform StartMenu;
@@ -16,9 +16,12 @@ public class MenuController : MonoBehaviour {
     public CharacterSelect[] chaSeclet;
     [SerializeField] Color[] imgColor;
     public Material[] chaColor;
+    public GameObject[] Body;
+    public GameObject[] Arm;
     public GameplayManager GM;
     public int totalPlayer;
     public int readyPlayer;
+    public GameObject[] player;
     Vector3 OffscreenPos = new Vector2(1280, 0);
 
     int count;
@@ -102,13 +105,14 @@ public class MenuController : MonoBehaviour {
     }
     void PressToStart()
     {
+        if (isSkipSelect)
+        {
+            GM.GameStart = true;
+            GM.gameState = GameState.Playing;
+            gameObject.SetActive(false);
+        }
         chaSeclet[0].control.Item(() =>
-        {if(isSkipSelect)
-            {
-                GM.GameStart = true;
-                GM.gameState = GameState.Playing;
-                gameObject.SetActive(false);
-            }
+        {
             ShowSelect();
 
             GM.gameState = GameState.Select;
@@ -124,11 +128,18 @@ public class MenuController : MonoBehaviour {
             StartCoroutine(Count());
         else
         {
-            StartPlaying(); 
+            for(int i = player.Length-1;i>totalPlayer;i--)
+            {
+                player[i].SetActive(false);
+            }
+            SetPlayerMatt();
+            StartPlaying(); InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
+            InGameMenuController.Instance.StartUpdateGuage();
+            followobj.SetActive(true);
             GM.gameState = GameState.Start;
             GM.GameStart = true;
-            InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
-            InGameMenuController.Instance.StartUpdateGuage();
+            
+            
            
         }
 
@@ -137,5 +148,22 @@ public class MenuController : MonoBehaviour {
     {
         StartCoroutine(Count());
 
+    }
+    public void SetPlayerMatt()
+    {
+        for(int i =0;i < totalPlayer;i++)
+        {
+            SetMatt(i, GetChaColor(chaSeclet[i].ColorIndex));
+            player[i].SetActive(true);
+            InGameMenuController.Instance.PlayerIcon[i].transform.parent.gameObject.SetActive(true);
+            InGameMenuController.Instance.Progress[i+1].gameObject.SetActive(true);
+            print("setMatt " + i);
+        }
+    }
+    void SetMatt(int index,Material matt)
+    {
+        Arm[index].GetComponent<Renderer>().material = matt;
+        Body[index].GetComponent<Renderer>().material = matt;
+        
     }
 }

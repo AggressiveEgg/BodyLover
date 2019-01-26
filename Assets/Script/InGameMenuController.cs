@@ -25,7 +25,7 @@ public class InGameMenuController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        PlayerPos = GameObject.FindObjectsOfType<PlayerController>();
+       // PlayerPos = GameObject.FindObjectsOfType<PlayerController>();
         
 	}
 	public void InitMenu(float MaxValues)
@@ -36,10 +36,11 @@ public class InGameMenuController : MonoBehaviour {
             Progress[i].value = 0;
             if(i!=0)
             {
-                PlayerPlace[i - 1].sprite = pPlace[MenuController.Instance.chaSeclet[i].ColorIndex];
-                PlayerIcon[i - 1].sprite = pIcon[MenuController.Instance.chaSeclet[i].ColorIndex];
+                PlayerPlace[i - 1].sprite = pPlace[MenuController.Instance.chaSeclet[i-1].ColorIndex];
+                PlayerIcon[i - 1].sprite = pIcon[MenuController.Instance.chaSeclet[i-1].ColorIndex];
+                print(i + " " + MenuController.Instance.totalPlayer);
             }
-            print(i +" "+ MenuController.Instance.totalPlayer);
+          
         }
     }
     public void StartUpdateGuage()
@@ -51,11 +52,17 @@ public class InGameMenuController : MonoBehaviour {
         CancelInvoke("UpdateSlider");
     }
     public void UpdateSlider()
-    {
-        for (int i = 0; i < MenuController.Instance.totalPlayer ; i++)
+    { float maxY = 0;
+        for (int i = 1; i < MenuController.Instance.totalPlayer+1 ; i++)
         {
-         
-            Progress[i+1].value = PlayerPos[i].gameObject.transform.position.y;
+            
+
+            if(maxY < PlayerPos[i-1].gameObject.transform.position.y)
+            {
+                maxY = PlayerPos[i-1].gameObject.transform.position.y;
+            }
+            Progress[0].value = maxY;
+            Progress[i].value = PlayerPos[i-1].gameObject.transform.position.y;
 
        
         }
