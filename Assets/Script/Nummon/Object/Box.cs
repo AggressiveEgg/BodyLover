@@ -94,7 +94,8 @@ public class Box : MonoBehaviour
     void setMaterials(bool on)
     {
         MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
-        Material material = renderer.material;
+        renderer.enabled = on;
+        /*Material material = renderer.material;
         material.SetFloat("_Mode", 3f);
 
         Color32 col = renderer.material.GetColor("_Color");
@@ -107,7 +108,7 @@ public class Box : MonoBehaviour
             col.a = 0;
         }
 
-        renderer.material.SetColor("_Color", col);
+        renderer.material.SetColor("_Color", col);*/
     }
 
     public void refresh()

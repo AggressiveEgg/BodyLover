@@ -9,11 +9,13 @@ public class WhiteBlood : MonoBehaviour {
     Coroutine currentCoroutine;
     Rigidbody rd;
     bool isAction;
+    GameObject modelCharacter;
 	// Use this for initialization
 	void Start () 
     {
         rd = this.gameObject.GetComponent<Rigidbody>();
         StartWalk();
+        modelCharacter = this.transform.GetChild(0).gameObject;
 	}
 	
 	// Update is called once per frame
@@ -68,6 +70,7 @@ public class WhiteBlood : MonoBehaviour {
     {
         while (true)
         {
+            RotateDirection(dir);
             rd.velocity = dir * Time.deltaTime * speed;
             yield return null;
         }
@@ -110,5 +113,20 @@ public class WhiteBlood : MonoBehaviour {
         isAction = false;
         StartWalk();
         yield return null;
+    }
+
+    public void RotateDirection(Vector3 dir)
+    {
+        if (modelCharacter == null)
+            return;
+
+        if (dir.x > 0)
+        {
+            modelCharacter.transform.eulerAngles = Vector3.Lerp(modelCharacter.transform.eulerAngles, new Vector3(modelCharacter.transform.eulerAngles.x, 135, 0), 5 * Time.deltaTime);
+        }
+        else if (dir.x < 0)
+        {
+            modelCharacter.transform.eulerAngles = Vector3.Lerp(modelCharacter.transform.eulerAngles, new Vector3(modelCharacter.transform.eulerAngles.x, 215, 0), 5 * Time.deltaTime);
+        }
     }
 }
