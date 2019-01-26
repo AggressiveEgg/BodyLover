@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class BoxInfo
 {
     int MaxHp;
@@ -29,11 +29,11 @@ public class BoxInfo
 public class Box : MonoBehaviour 
 {
     Coroutine coroutine;
-    BoxInfo boxInfo;
+    [SerializeField]BoxInfo boxInfo;
 
 	void Start ()
     {
-        boxInfo = new BoxInfo();
+    //    boxInfo = new BoxInfo();
 	}
 
     void BoxHit(int dmg)
@@ -61,7 +61,7 @@ public class Box : MonoBehaviour
             
             refresh();
         }
-        setMaterials(boxInfo.Active);
+       // setMaterials(boxInfo.Active);
         this.gameObject.GetComponent<Collider>().enabled = boxInfo.Active;
     }
 
