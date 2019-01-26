@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
 
     Coroutine AttackCorotine;
+    bool isAction = false;
     // Use this for initialization
     void Start()
     {
@@ -36,12 +37,15 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         control.SetPlayerJoyStick(playerindex);
         e = new Event();
+
+        maxSpeed = CommonConfig.MaxSpeed;
+        jumpForce = CommonConfig.Jump;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!Active)
+        if (!Active || isAction)
             return;
         
         checkGround();
@@ -133,6 +137,7 @@ public class PlayerController : MonoBehaviour
 
     public void Reset()
     {
+        isAction = false;
         Active = true;
         HitFunction();
         control.Force = 0;
@@ -158,31 +163,35 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Attacking(Vector3 Dir)
     {
+        isAction = true;
         List<PlayerController> listP = new List<PlayerController>();
-        float time_anim = 1.0f;
+        float Maxtime_anim = CommonConfig.attackTime;
+        float time_anim = Maxtime_anim;
         while (true)
         {
-            Dir.x = Mathf.Round(Dir.x);
-            Dir.y = 0;
-            Dir.z = 0;
-            float range = 2f;
-            RaycastHit hit;
-            if (Physics.Raycast(this.transform.position, Vector3.down, out hit, range))
+            if (time_anim <= Maxtime_anim/2)
             {
-                if (hit.collider.gameObject.tag == "Player")
+                Dir.x = Mathf.Round(Dir.x);
+                Dir.y = 0;
+                Dir.z = 0;
+                float range = CommonConfig.AttackRange;
+                RaycastHit hit;
+                if (Physics.Raycast(this.transform.position, Dir, out hit, range))
                 {
-                    print("Found Player");
-                    hit.collider.gameObject.GetComponent<PlayerController>().Force(Dir * -1);
-                    int index = listP.FindIndex(x => x == hit.collider.gameObject.GetComponent<PlayerController>());
-                    if (index == -1)
+                    if (hit.collider.tag == "Player")
                     {
-                        print("Attack : " + hit.collider.gameObject.name);
-                        listP.Add(hit.collider.gameObject.GetComponent<PlayerController>());
+                        int index = listP.FindIndex(x => x == hit.collider.GetComponent<PlayerController>());
+                        if (index == -1)
+                        {
+                            print("Attack : " + hit.collider.name);
+                            hit.collider.GetComponent<PlayerController>().Force(Dir);
+                            listP.Add(hit.collider.GetComponent<PlayerController>());
+                        }
                     }
                 }
-            }
 
-            Debug.DrawRay(this.transform.position, Dir * range, Color.red);
+                Debug.DrawRay(this.transform.position, Dir * range, Color.red);
+            }
             if(time_anim <= 0)
             {
                 break;
@@ -193,10 +202,39 @@ public class PlayerController : MonoBehaviour
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
+        isAction = false;
         yield return null;
     }
+
     public void Force(Vector3 dir)
     {
-        print("Force");
+        
+        animation.RotateAttack();
+        if (AttackCorotine != null)
+            StopCoroutine(AttackCorotine);
+        AttackCorotine = StartCoroutine(Forcing(dir));
+    }
+
+    IEnumerator Forcing(Vector3 dir)
+    {
+        isAction = true;
+        animation.resetAnim();
+        animation.playAnimTriiger("IsHit");
+        float time = CommonConfig.HitTime;
+        while (true)
+        {
+            if(time <= 0)
+            {
+                break;
+            }
+            else
+            {
+                time -= Time.deltaTime;
+            }
+            this.rb.velocity = (dir + Vector3.up) * 10.0f * time;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        isAction = false;
+        yield return null;
     }
 }

@@ -137,9 +137,9 @@ public class Box : MonoBehaviour
                 && (this.gameObject.transform.position.x > collision.gameObject.transform.position.x - collision.gameObject.GetComponent<Collider>().bounds.size.x / 2)
                 && (this.gameObject.transform.position.x < collision.gameObject.transform.position.x + collision.gameObject.GetComponent<Collider>().bounds.size.x / 2))
             {
-                print("scale box : " + this.gameObject.GetComponent<Collider>().bounds.size);
-                print("pos box : " + this.gameObject.transform.localPosition);
-                print("pos Player : " + collision.gameObject.transform.position);
+                //print("scale box : " + this.gameObject.GetComponent<Collider>().bounds.size);
+                //print("pos box : " + this.gameObject.transform.localPosition);
+                //print("pos Player : " + collision.gameObject.transform.position);
                 BoxHit(1);
             }
         }

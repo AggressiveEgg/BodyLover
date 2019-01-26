@@ -54,4 +54,20 @@ public class AnimationController
             modelCharacter.transform.eulerAngles = Vector3.Lerp(modelCharacter.transform.eulerAngles, new Vector3(modelCharacter.transform.eulerAngles.x, 235, 0), 100 * Time.deltaTime);
         }
     }
+
+    public void resetAnim()
+    {
+        foreach (AnimatorControllerParameter i in animator.parameters)
+        {
+            if(i.type == AnimatorControllerParameterType.Trigger)
+            {
+                animator.ResetTrigger(i.name);
+            }
+            if(i.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(i.name,false);
+            }
+        }
+
+    }
 }
