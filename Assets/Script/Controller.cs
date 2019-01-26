@@ -5,8 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class Controller : MonoBehaviour
 {
-
-
     string jump;
     string left;
     string right;
@@ -47,7 +45,7 @@ public class Controller : MonoBehaviour
         jump = "w";
         left = "a";
         right = "d";
-        atk = "spacebar";
+        atk = "Space";
 
 
         
@@ -182,16 +180,19 @@ public class Controller : MonoBehaviour
 
     public void Item(System.Action action)
     {
-        if (Input.GetKeyDown(atk) || (Input.GetKeyDown(kcAtk)))
+        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(kcAtk)))
         {
             if (action != null)
-            { action(); }
+            { 
+                action(); 
+            }
         }
         else
         {
-            Debug.Log("No NoAction");
+            //Debug.Log("No NoAction");
             return;
         }
     }
+
 
 }

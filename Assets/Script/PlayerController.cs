@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]bool isJump;
     [SerializeField] bool isWall;
     Rigidbody rb;
+
+    Coroutine AttackCorotine;
     // Use this for initialization
     void Start()
     {
@@ -43,9 +45,11 @@ public class PlayerController : MonoBehaviour
             return;
         
         checkGround();
+        attack();
         control.MoveController(null);
         ForceToDirection();
         MoveTarget();
+        animation.RotateDirection(rb.velocity);
     }
 
 
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour
             if (!isJump)
             {
                 isJump = true;
+                animation.playAnimBool("IsJump", true);
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
             }
         });
@@ -67,11 +72,13 @@ public class PlayerController : MonoBehaviour
         if (!isJump)
         {
             float moveX = Mathf.Clamp(speed * control.Force, -maxSpeed, maxSpeed);
-            //print(moveX);
+            animation.playAnimBool("IsRun",rb.velocity.x != 0);
+
             rb.velocity = new Vector3(moveX, rb.velocity.y);   
         }
         else if(isJump)
         {
+            
             if (CanMove(rb.velocity.normalized) && !isWall)
             {
                 float moveX = Mathf.Clamp(rb.velocity.x + (speed * (control.Force / 2)) / 2, -1 * (maxSpeed / 2), maxSpeed / 2);
@@ -119,6 +126,7 @@ public class PlayerController : MonoBehaviour
 
     public void HitFunction()
     {
+        animation.playAnimBool("IsJump", false);
         isJump = false;
         isWall = false;
     }
@@ -129,5 +137,66 @@ public class PlayerController : MonoBehaviour
         HitFunction();
         control.Force = 0;
         rb.velocity = new Vector3(0,0,0);
+    }
+
+    public void attack()
+    {
+        control.Item(() =>
+        {
+        animation.RotateAttack();
+        animation.playAnimTriiger("isAttack");
+        RaycastAttack(new Vector3(animation.right,0,0));
+        });
+    }
+
+    public void RaycastAttack(Vector3 Dir)
+    {
+        if (AttackCorotine != null)
+            StopCoroutine(AttackCorotine);
+        AttackCorotine = StartCoroutine(Attacking(Dir));
+    }
+
+    IEnumerator Attacking(Vector3 Dir)
+    {
+        List<PlayerController> listP = new List<PlayerController>();
+        float time_anim = 1.0f;
+        while (true)
+        {
+            Dir.x = Mathf.Round(Dir.x);
+            Dir.y = 0;
+            Dir.z = 0;
+            float range = 2f;
+            RaycastHit hit;
+            if (Physics.Raycast(this.transform.position, Vector3.down, out hit, range))
+            {
+                if (hit.collider.gameObject.tag == "Player")
+                {
+                    print("Found Player");
+                    hit.collider.gameObject.GetComponent<PlayerController>().Force(Dir * -1);
+                    int index = listP.FindIndex(x => x == hit.collider.gameObject.GetComponent<PlayerController>());
+                    if (index == -1)
+                    {
+                        print("Attack : " + hit.collider.gameObject.name);
+                        listP.Add(hit.collider.gameObject.GetComponent<PlayerController>());
+                    }
+                }
+            }
+
+            Debug.DrawRay(this.transform.position, Dir * range, Color.red);
+            if(time_anim <= 0)
+            {
+                break;
+            }
+            else
+            {
+                time_anim -= Time.deltaTime;
+            }
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        yield return null;
+    }
+    public void Force(Vector3 dir)
+    {
+        print("Force");
     }
 }
