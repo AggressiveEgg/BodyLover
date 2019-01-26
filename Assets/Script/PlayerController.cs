@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isJump)
         {
-            print("WalkOnGround");
+            //print("WalkOnGround");
             float moveX = Mathf.Clamp(speed * control.Force, -maxSpeed, maxSpeed);
             //print(moveX);
             rb.velocity = new Vector3(moveX, rb.velocity.y);   
@@ -72,10 +72,8 @@ public class PlayerController : MonoBehaviour
         {
             if (CanMove(rb.velocity.normalized))
             {
-                print("WalkOnAir");
-                float moveX = Mathf.Clamp(rb.velocity.x + (speed * (control.Force / 2)) / 2, -1 * (maxSpeed / 2), maxSpeed/2);
-                //print(moveX);
-                rb.velocity = new Vector3(moveX , rb.velocity.y);
+                float moveX = Mathf.Clamp(rb.velocity.x + (speed * (control.Force / 2)) / 2, -1 * (maxSpeed / 2), maxSpeed / 2);
+                rb.velocity = new Vector3(moveX, rb.velocity.y);
             }
         }
     }
@@ -87,18 +85,15 @@ public class PlayerController : MonoBehaviour
         Dir.z = 0;
 
         RaycastHit hit;
-        float range = 2.5f;
-        if (Physics.Raycast(transform.position, Dir, out hit, range))
+        float range = 20f;
+        if (Physics.Raycast(this.transform.localPosition, Dir, out hit, range))
         {
+            print("found false : " + hit.collider.name);
             Debug.DrawRay(transform.position, Dir * range, Color.red,2.0f);
             return false;
         }
-        else
-        {
-            Debug.DrawRay(transform.position, Dir * range, Color.green,2.0f);
-            return true;
-        }
-
+        print("found true : ");
+        return false;
     }
 
     private void OnCollisionExit(Collision col)
