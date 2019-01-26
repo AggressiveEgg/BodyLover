@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(isJump)
         {
-            print(control.Force);
+            //print(control.Force);
             if (CanMove(new Vector3(control.Force,0,0).normalized))
             {
                 float moveX = Mathf.Clamp(rb.velocity.x + (speed * (control.Force / 2)) / 2, -1 * (maxSpeed / 2), maxSpeed / 2);
