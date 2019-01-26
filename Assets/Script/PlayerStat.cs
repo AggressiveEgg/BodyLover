@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStat : MonoBehaviour {
+public class PlayerStat  {
 
 
     float maxSpeed = 30;
@@ -10,9 +10,12 @@ public class PlayerStat : MonoBehaviour {
 
     int hp;
     int maxhp;
-    
-     
-    
+
+    public bool isStun = false;
+    public PlayerStat()
+    {
+
+    }
 
     public float MaxSpeed
     {
@@ -22,9 +25,9 @@ public class PlayerStat : MonoBehaviour {
     public void SetItemEffect(float effect)
     {
         itemEffect = effect;
-
-
     }
+
+    
 
 
 }
