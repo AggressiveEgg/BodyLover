@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     Event e;
     [SerializeField]bool isJump;
+    [SerializeField] bool isWall;
     Rigidbody rb;
     // Use this for initialization
     void Start()
@@ -63,17 +64,20 @@ public class PlayerController : MonoBehaviour
     {
         if (!isJump)
         {
-            //print("WalkOnGround");
             float moveX = Mathf.Clamp(speed * control.Force, -maxSpeed, maxSpeed);
-            //print(moveX);
             rb.velocity = new Vector3(moveX, rb.velocity.y);   
         }
         else if(isJump)
         {
-            if (CanMove(rb.velocity.normalized))
+            if (CanMove(rb.velocity.normalized) && !isWall)
             {
                 float moveX = Mathf.Clamp(rb.velocity.x + (speed * (control.Force / 2)) / 2, -1 * (maxSpeed / 2), maxSpeed / 2);
                 rb.velocity = new Vector3(moveX, rb.velocity.y);
+            }
+            else
+            {
+                isWall = true;
+                rb.velocity = new Vector3(0, -10, 0);
             }
         }
     }
@@ -85,15 +89,8 @@ public class PlayerController : MonoBehaviour
         Dir.z = 0;
 
         RaycastHit hit;
-        float range = 20f;
-        if (Physics.Raycast(this.transform.localPosition, Dir, out hit, range))
-        {
-            print("found false : " + hit.collider.name);
-            Debug.DrawRay(transform.position, Dir * range, Color.red,2.0f);
-            return false;
-        }
-        print("found true : ");
-        return false;
+        float range = 0.5f;
+        return !(Physics.Raycast(this.transform.localPosition - new Vector3(0, this.GetComponent<Collider>().bounds.size.x/2, 0), Dir, out hit, range) || Physics.Raycast(this.transform.localPosition + new Vector3(0, this.GetComponent<Collider>().bounds.size.x / 2, 0), Dir, out hit, range));
     }
 
     private void OnCollisionExit(Collision col)
@@ -136,6 +133,7 @@ public class PlayerController : MonoBehaviour
     public void HitFunction()
     {
         isJump = false;
+        isWall = false;
     }
 
     public void Reset()
