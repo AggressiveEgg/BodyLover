@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+
 [System.Serializable]
 public class BoxInfo
 {
@@ -30,22 +33,45 @@ public class Box : MonoBehaviour
 {
     Coroutine coroutine;
     [SerializeField]BoxInfo boxInfo;
+    [SerializeField] Texture[] BoxStyle;
+    [SerializeField] bool isUnBrakeable;
 
 	void Start ()
     {
-    //    boxInfo = new BoxInfo();
+        //    boxInfo = new BoxInfo();
+        InitBox();
 	}
 
+    
     void BoxHit(int dmg)
     {
         if (!boxInfo.Active)
             return;
-        
+        if(!isUnBrakeable)
         boxInfo.hp -= dmg;
 
         if(boxInfo.hp <= 0)
         {
             OnShow(false);
+        }
+    }
+    public void InitBox()
+    {
+        Renderer m = GetComponent<Renderer>();
+
+        if(isUnBrakeable)
+       
+            {
+            m.sharedMaterial.mainTexture = BoxStyle[0];
+            return;
+            }
+        if (boxInfo.hp >1)
+        {
+            m.sharedMaterial.mainTexture = BoxStyle[1];
+        }
+        else 
+        {
+            m.sharedMaterial.mainTexture = BoxStyle[2];
         }
     }
 
@@ -61,7 +87,7 @@ public class Box : MonoBehaviour
             
             refresh();
         }
-       // setMaterials(boxInfo.Active);
+        setMaterials(boxInfo.Active);
         this.gameObject.GetComponent<Collider>().enabled = boxInfo.Active;
     }
 

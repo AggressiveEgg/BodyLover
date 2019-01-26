@@ -8,19 +8,21 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
+  m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1354411548042510}
   m_IsPrefabParent: 1
 --- !u!1 &1352366118559632
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4778213413564106}
   - component: {fileID: 33611238439648030}
   - component: {fileID: 23783979965249228}
+  - component: {fileID: 114575316612259614}
+  - component: {fileID: 65928022876319640}
   m_Layer: 0
   m_Name: pCube29
   m_TagString: Untagged
@@ -31,13 +33,11 @@ GameObject:
 --- !u!1 &1354411548042510
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4177862656241796}
-  - component: {fileID: 114517781685561830}
-  - component: {fileID: 65051433041140226}
   m_Layer: 0
   m_Name: BoxWeak
   m_TagString: ground
@@ -48,11 +48,11 @@ GameObject:
 --- !u!4 &4177862656241796
 Transform:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1354411548042510}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.684, y: 1.98, z: 0}
+  m_LocalPosition: {x: 1.6449006, y: 0.62520266, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children:
   - {fileID: 4778213413564106}
@@ -62,7 +62,7 @@ Transform:
 --- !u!4 &4778213413564106
 Transform:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1352366118559632}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -75,7 +75,7 @@ Transform:
 --- !u!23 &23783979965249228
 MeshRenderer:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1352366118559632}
   m_Enabled: 1
@@ -110,28 +110,28 @@ MeshRenderer:
 --- !u!33 &33611238439648030
 MeshFilter:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1352366118559632}
   m_Mesh: {fileID: 4300000, guid: 9340a44caf4528d4f9eae5b0070aa6d9, type: 3}
---- !u!65 &65051433041140226
+--- !u!65 &65928022876319640
 BoxCollider:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1354411548042510}
+  m_GameObject: {fileID: 1352366118559632}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.02, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114517781685561830
+  m_Size: {x: 0.0216123, y: 0.010000001, z: 0.009087033}
+  m_Center: {x: 0, y: 0.0000000023283067, z: -0.00045648357}
+--- !u!114 &114575316612259614
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1354411548042510}
+  m_GameObject: {fileID: 1352366118559632}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 486d660aec46442f0a7b926dec3ba084, type: 3}
