@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public class Controller : MonoBehaviour
 {
 
@@ -17,12 +17,17 @@ public class Controller : MonoBehaviour
     string joyRight;
     string joyAtk;
 
-    string Horizontal;
-
+    string horizontal;
+    string dpad;
     KeyCode kcJump;
     KeyCode kcLeft;
     KeyCode kcRight;
     KeyCode kcAtk;
+
+
+    public bool isDpadPressed;
+    public float Force;
+    float muti = 30;
     //[SerializeField] PlayerIndex playerIndex;
 
     //GamePadState state;
@@ -44,23 +49,33 @@ public class Controller : MonoBehaviour
         right = "d";
         atk = "spacebar";
 
+
+        
       
         //KeyCode.Joystick1Button18;
     }
     
     public void SetPlayerJoyStick(int index)
     {
-        joyAtk = "Joystick" + index + "Button18";
-        joyJump = "Joystick" + index + "Button16";
+        joyAtk = "Joystick" + index + "Button2";
+        joyJump = "Joystick" + index + "Button0";
         joyLeft = "Joystick" + index + "Button7";
         joyRight = "Joystick" + index + "Button8";
         kcAtk = (KeyCode)System.Enum.Parse(typeof(KeyCode), joyAtk);
         kcJump = (KeyCode)System.Enum.Parse(typeof(KeyCode), joyJump);
         kcLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), joyLeft);
         kcRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), joyRight);
-        Horizontal = "Horizontal" + index;
+        horizontal = "Horizontal" + index;
+        dpad = "HDpad" + index;
     }
 
+    public float Horizontal
+    {
+        get { return Input.GetAxis(horizontal); }
+    }public float Dpad
+    {
+        get { return Input.GetAxis(dpad); }
+    }
 
     public void Jump(System.Action action = null)
     {
@@ -80,30 +95,77 @@ public class Controller : MonoBehaviour
 
     }
 
-    public void Left(System.Action action)
+
+    public void MoveController(System.Action action)
     {
-        if (Input.GetKey(left) || (Input.GetKey(kcLeft)) || Input.GetAxis(Horizontal) < -0.1)
+        if (Input.GetAxis(dpad) > 0.3|| Input.GetAxis(dpad) < -0.3)
         {
-            if (action != null)
-            { action(); }
+            if(Mathf.Abs(Force)<10)
+            Force += (muti * Time.deltaTime)*Input.GetAxis(dpad);
+        }
+        else if (Input.GetAxis(horizontal) > 0.3 || Input.GetAxis(horizontal) < -0.3)
+        {
+            if (Mathf.Abs(Force) < 10)
+                Force += (muti * Time.deltaTime) * Input.GetAxis(horizontal);
+        }
+        else if(Input.GetKey(left))
+        {
+            if (Force > -10)
+                Force -= muti * Time.deltaTime;
+        }
+        else if(Input.GetKey(right))
+        {
+            if (Force < 10)
+                Force += muti * Time.deltaTime;
         }
         else
-        {
-            //Debug.Log("No NoAction");
-            return;
+        { if (Force > 0)
+                Force -= muti * Time.deltaTime;
+            else if (Force < 0)
+                Force += muti * Time.deltaTime;
+            else
+            { Force = 0; }
         }
     }
-    public void Right(System.Action action)
+
+    public void Left(System.Action action,System.Action action2)
     {
-        if (Input.GetKey(right) || Input.GetKey(kcRight) || Input.GetAxis(Horizontal) > 0.1)
+        if (Input.GetKey(left) || Input.GetAxis(dpad) <-0.1 || Input.GetAxis(horizontal) < -0.3)
         {
             if (action != null)
-            { action(); }
+            { action();
+                Debug.Log("Left Action");
+            }
+            isDpadPressed = true;
         }
         else
         {
-            //Debug.Log("No NoAction");
+            isDpadPressed = false;
+            Debug.Log("No NoAction");
+            if (action2 != null)
+            { action2(); }
             return;
+        }
+
+       
+    }
+    public void Right(System.Action action,System.Action action2)
+    {
+        if (Input.GetKey(right) || Input.GetAxis(dpad) > 0.1 || Input.GetAxis(horizontal) > 0.3)
+        {
+            if (action != null)
+            { action();
+
+                isDpadPressed = true;
+            }
+        }
+        else
+        {
+            isDpadPressed = false;
+            Debug.Log("No NoAction");
+            if (action2 != null)
+            { action2(); }
+                return;
         }
     }
 

@@ -8,9 +8,10 @@ public class PlayerController : MonoBehaviour
 {
 
 
-
+    [SerializeField]
     Controller control;
     [Header("Setting")]
+    [SerializeField] float maxSpeed;
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
     [SerializeField] int playerindex;
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject player;
 
     Event e;
-    bool isJump;
+    [SerializeField]bool isJump;
     Rigidbody rb;
     // Use this for initialization
     void Start()
@@ -36,9 +37,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        control.CheckGamepadState();
+        control.MoveController(null);
         ForceToDirection();
-        RotateTarget();
+        MoveTarget();
         
     }
 
@@ -51,37 +52,61 @@ public class PlayerController : MonoBehaviour
                 isJump = true;
                 rb.useGravity = true;
                 // gameObject.transform.LookAt(direction.transform);
-                rb.AddForce(0, jumpForce, 0);
+                rb.velocity = new Vector3(rb.velocity.x, jumpForce);
             }
         });
 
 
     }
-    public void RotateTarget()
+    public void MoveTarget()
     {
-        if (Mathf.Abs(rb.velocity.x) < 100)
+        if (Mathf.Abs(rb.velocity.x) < 100 && !isJump)
         {
-            control.Left(() =>
-            {
-                rb.AddForce(-speed, 0, 0);
-            });
-            control.Right(() =>
-            {
-                rb.AddForce(speed, 0, 0);
-            });
+            //float force = Mathf.Abs(control.Dpad+)
+            rb.velocity = new Vector3(speed * control.Force, rb.velocity.y);
+            //control.Left(() =>
+            //{if(speed < maxSpeed)
+            //    speed += 2;
+            //    rb.velocity = new Vector3(speed*, rb.velocity.y);
+                
+            //},()=> {
+            //    speed = 0;
+            //});
+            //control.Right(() =>
+            //{
+            //    if (speed < maxSpeed)
+            //        speed += 2;
+            //    rb.velocity = new Vector3(speed , rb.velocity.y);
+            //},()=> {
+            //    speed = 0;
+            //});
             
         }
     }
-
-    public void OnCollisionEnter(Collision col)
+    private void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.tag == "ground" )
+        {
+            isJump = true;
+        }
+    }
+    public void OnCollisionStay(Collision col)
     {
         if (col.gameObject.tag == "ground" || col.gameObject.tag == "Player")
         {
             HitFunction();
         }
     }
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "ground")
+        {
+            control.Force = 0;
+        }
+    }
     public void HitFunction()
     {
         isJump = false;
+        
     }
 }
