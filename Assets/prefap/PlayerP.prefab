@@ -1350,7 +1350,7 @@ GameObject:
   - component: {fileID: 114560938729485984}
   - component: {fileID: 54669005300196884}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerP
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3063,6 +3063,7 @@ MonoBehaviour:
   playerindex: 1
   player: {fileID: 1880832309165460}
   isJump: 0
+  isWall: 0
 --- !u!135 &135560140196914486
 SphereCollider:
   m_ObjectHideFlags: 1

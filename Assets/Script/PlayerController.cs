@@ -9,7 +9,10 @@ public class PlayerController : MonoBehaviour
     public bool Active = false;
 
     [SerializeField]
+
     Controller control;
+    AnimationController animation;
+
     [Header("Setting")]
     [SerializeField] float maxSpeed;
     [SerializeField] float speed;
@@ -27,12 +30,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         control = new Controller();
+        animation = new AnimationController(this);
         rb = GetComponent<Rigidbody>();
         control.SetPlayerJoyStick(playerindex);
-       
-         e = new Event();
-        
-            
+        e = new Event();
     }
 
     // Update is called once per frame
@@ -78,8 +79,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                //isWall = true;
-                rb.velocity = new Vector3(0, 0, 0);
+                isWall = true;
+                rb.velocity = new Vector3(0, -10, 0);
             }
         }
     }
@@ -100,7 +101,7 @@ public class PlayerController : MonoBehaviour
         if (!isJump || rb.velocity.y > 0.0f)
             return;
         
-        print(rb.velocity.y);
+        //print(rb.velocity.y);
         float range = 0.5f;
         RaycastHit hit;
         float sizeX = this.GetComponent<Collider>().bounds.size.x / 4;

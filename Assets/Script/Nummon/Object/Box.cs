@@ -38,8 +38,8 @@ public class Box : MonoBehaviour
 
 	void Start ()
     {
-        //    boxInfo = new BoxInfo();
-        InitBox();
+        //boxInfo = new BoxInfo();
+        //InitBox();
 	}
 
     
@@ -59,20 +59,20 @@ public class Box : MonoBehaviour
     {
         Renderer m = GetComponent<Renderer>();
 
-        if(isUnBrakeable)
-       
-            {
+        if (isUnBrakeable)
+        {
             m.sharedMaterial.mainTexture = BoxStyle[0];
             return;
-            }
-        if (boxInfo.hp >1)
+        }
+        if (boxInfo.hp > 1)
         {
             m.sharedMaterial.mainTexture = BoxStyle[1];
         }
-        else 
+        else
         {
             m.sharedMaterial.mainTexture = BoxStyle[2];
         }
+
     }
 
     void OnShow(bool on)
@@ -134,12 +134,12 @@ public class Box : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             if (collision.gameObject.transform.position.y <= this.gameObject.transform.position.y 
-                && (this.gameObject.transform.localPosition.x > collision.gameObject.transform.position.x - collision.gameObject.GetComponent<Collider>().bounds.size.x / 2)
-                && (this.gameObject.transform.localPosition.x < collision.gameObject.transform.position.x + collision.gameObject.GetComponent<Collider>().bounds.size.x / 2))
+                && (this.gameObject.transform.position.x > collision.gameObject.transform.position.x - collision.gameObject.GetComponent<Collider>().bounds.size.x / 2)
+                && (this.gameObject.transform.position.x < collision.gameObject.transform.position.x + collision.gameObject.GetComponent<Collider>().bounds.size.x / 2))
             {
-                //print("scale box : " + this.gameObject.GetComponent<Collider>().bounds.size);
-                //print("pos box : " + this.gameObject.transform.localPosition);
-                //print("pos Player : " + collision.gameObject.transform.position);
+                print("scale box : " + this.gameObject.GetComponent<Collider>().bounds.size);
+                print("pos box : " + this.gameObject.transform.localPosition);
+                print("pos Player : " + collision.gameObject.transform.position);
                 BoxHit(1);
             }
         }

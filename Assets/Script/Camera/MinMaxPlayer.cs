@@ -4,27 +4,56 @@ using UnityEngine;
 
 public class MinMaxPlayer : MonoBehaviour {
 
-    [SerializeField] Transform pos1;
-    [SerializeField] Transform pos2;
+    [SerializeField] PlayerController[] pos;
     [SerializeField] float MaxPos;
+    public GameObject min;
+    public GameObject max;
 
     Vector3 calpos;
     float lastpos;
-	// Use this for initialization
-	void Start () {
-		
+
+	void Start () 
+    {
+        FindAllPlayer();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        calpos = Vector3.Lerp(pos1.position, pos2.position, 0.5f);
-        float dif = Mathf.Abs(pos1.position.y - pos2.position.y);
-        float pos = 0;
-        if (dif > 5&& dif <MaxPos)
+
+    void FindAllPlayer()
+    {
+        pos = GameObject.FindObjectsOfType<PlayerController>();
+    }
+
+    void Cal()
+    {
+        float high = Mathf.NegativeInfinity;
+        float low = Mathf.Infinity;
+        foreach (PlayerController p in pos)
         {
-            pos = dif / 2;
-            lastpos = pos;
+            if (p.gameObject.transform.position.y > high)
+            {
+                max = p.gameObject;
+                high = p.gameObject.transform.position.y;
+            }
+
+
+            if (p.gameObject.transform.position.y < low)
+            {
+                min = p.gameObject;
+                low = p.gameObject.transform.position.y;
+            }
         }
+    }
+
+	void Update ()
+    {
+        Cal();
+        calpos = Vector3.Lerp(min.transform.position, max.transform.position, 0.5f);
+        float dif = Mathf.Abs(min.transform.position.y - max.transform.position.y);
+
+        if (dif > 0 && dif < MaxPos)
+        {
+            lastpos = dif;
+        }
+
         transform.position = new Vector3(calpos.x,calpos.y,calpos.z-lastpos) ;
 	}
 }
