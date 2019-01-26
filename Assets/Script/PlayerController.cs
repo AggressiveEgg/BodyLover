@@ -165,6 +165,7 @@ public class PlayerController : MonoBehaviour
     {
         isAction = true;
         List<PlayerController> listP = new List<PlayerController>();
+        List<WhiteBlood> listE = new List<WhiteBlood>();
         float Maxtime_anim = CommonConfig.attackTime;
         float time_anim = Maxtime_anim;
         while (true)
@@ -183,9 +184,18 @@ public class PlayerController : MonoBehaviour
                         int index = listP.FindIndex(x => x == hit.collider.GetComponent<PlayerController>());
                         if (index == -1)
                         {
-                            print("Attack : " + hit.collider.name);
                             hit.collider.GetComponent<PlayerController>().Force(Dir);
                             listP.Add(hit.collider.GetComponent<PlayerController>());
+                        }
+                    }
+
+                    if(hit.collider.tag == "Enemy")
+                    {
+                        int index = listE.FindIndex(x => x == hit.collider.GetComponent<WhiteBlood>());
+                        if (index == -1)
+                        {
+                            hit.collider.GetComponent<WhiteBlood>().Force(Dir);
+                            listE.Add(hit.collider.GetComponent<WhiteBlood>());
                         }
                     }
                 }
@@ -202,6 +212,7 @@ public class PlayerController : MonoBehaviour
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
+        control.Force = 0;
         isAction = false;
         yield return null;
     }
