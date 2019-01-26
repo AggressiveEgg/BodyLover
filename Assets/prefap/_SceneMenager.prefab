@@ -51,10 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09739287ce15f447acabb588fccd1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menustate: 0
+  isSkipSelect: 0
   StartMenu: {fileID: 0}
   SelectCanvas: {fileID: 0}
   CutSceneCanvas: {fileID: 0}
+  countDown: 3
   chaSeclet:
   - {fileID: 0}
   - {fileID: 0}
@@ -66,7 +67,10 @@ MonoBehaviour:
   - {r: 0.19441736, g: 1, b: 0, a: 1}
   - {r: 1, g: 0.9957261, b: 0, a: 1}
   chaColor:
-  - {fileID: 2800000, guid: 4cb0f0d90b50f1f4b82110badffc37c3, type: 3}
-  - {fileID: 2800000, guid: f82c31b059d1e9847ba050199f2afbc0, type: 3}
-  - {fileID: 2800000, guid: 0753fd4aee3c9264dbe773675dfdd98b, type: 3}
-  - {fileID: 2800000, guid: a2f656d07a460a74c8fbdbd28b9cf92e, type: 3}
+  - {fileID: 2100000, guid: 7f5555c1113100c4c8d6daa32dc69048, type: 2}
+  - {fileID: 2100000, guid: e1e4edcee36d2104b899013e1ac504ed, type: 2}
+  - {fileID: 2100000, guid: 330ca20315dc0be41b5bf7d452ebf58a, type: 2}
+  - {fileID: 2100000, guid: cd52d368a5333774e826b0715d80d72b, type: 2}
+  GM: {fileID: 0}
+  totalPlayer: 0
+  readyPlayer: 0
