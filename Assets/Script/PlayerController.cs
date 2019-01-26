@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
             if (!isJump)
             {
                 isJump = true;
-                rb.useGravity = true;
+                
                 // gameObject.transform.LookAt(direction.transform);
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
             }
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     }
     public void MoveTarget()
     {
-        if (Mathf.Abs(rb.velocity.x) < 100 && !isJump)
+        if (Mathf.Abs(rb.velocity.x) < maxSpeed && !isJump)
         {
             //float force = Mathf.Abs(control.Dpad+)
             rb.velocity = new Vector3(speed * control.Force, rb.velocity.y);
@@ -81,6 +81,10 @@ public class PlayerController : MonoBehaviour
             //    speed = 0;
             //});
             
+        }
+        else if(Mathf.Abs(rb.velocity.x) < maxSpeed&&isJump)
+        {
+            rb.velocity = new Vector3(rb.velocity.x+(speed * (control.Force/2))/2, rb.velocity.y);
         }
     }
     private void OnCollisionExit(Collision col)
