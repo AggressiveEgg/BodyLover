@@ -10,7 +10,8 @@ public class PlayerStat : MonoBehaviour {
 
     int hp;
     int maxhp;
-
+    
+     
     
 
     public float MaxSpeed
