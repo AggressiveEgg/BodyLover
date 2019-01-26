@@ -112,7 +112,7 @@ MonoBehaviour:
     hp: 1
     Active: 1
   BoxStyle:
-  - {fileID: 2800000, guid: d8ba2e7eb329802449509b6c326e9e3d, type: 3}
-  - {fileID: 2800000, guid: 392e4ea8a035d624295f5383f9b0c383, type: 3}
-  - {fileID: 2800000, guid: aededbcb8faaefd449ee9e8ea1fdd24f, type: 3}
+  - {fileID: 2100000, guid: 58e72b85be0ea5d4b8d3ec98bdfe32c6, type: 2}
+  - {fileID: 2100000, guid: 26ac10a8ee7797a488bca8ca7b590170, type: 2}
+  - {fileID: 2100000, guid: 903ae0b98018f2d478b5bccf750a107e, type: 2}
   isUnBrakeable: 0
