@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public bool Active = false;
 
     [SerializeField]
     Controller control;
@@ -37,10 +37,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Active)
+            return;
+        
         control.MoveController(null);
         ForceToDirection();
         MoveTarget();
-        
     }
 
 
@@ -84,9 +86,34 @@ public class PlayerController : MonoBehaviour
         }
         else if(Mathf.Abs(rb.velocity.x) < maxSpeed&&isJump)
         {
-            rb.velocity = new Vector3(rb.velocity.x+(speed * (control.Force/2))/2, rb.velocity.y);
+            if(CanMove(rb.velocity.normalized))
+                rb.velocity = new Vector3(rb.velocity.x+(speed * (control.Force/2))/2, rb.velocity.y);
         }
     }
+
+    bool CanMove(Vector3 Dir)
+    {
+        Dir.x = Mathf.Round(Dir.x);
+        Dir.y = 0;
+        Dir.z = 0;
+        print(Dir);
+
+        RaycastHit hit;
+        float range = 2.5f;
+        print("target point : " + this.transform.position + (Dir * range) + "results : " + (this.transform.position + (Dir * range)));
+        if (Physics.Raycast(transform.position, Dir, out hit, range))
+        {
+            Debug.DrawRay(transform.position, Dir * range, Color.green,2.0f);
+            return false;
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, Dir * range, Color.red,2.0f);
+            return true;
+        }
+
+    }
+
     private void OnCollisionExit(Collision col)
     {
         if (col.gameObject.tag == "ground" )
@@ -94,16 +121,22 @@ public class PlayerController : MonoBehaviour
             isJump = true;
         }
     }
+
     public void OnCollisionStay(Collision col)
     {
-        if (col.gameObject.tag == "ground" || col.gameObject.tag == "Player")
+        //print("Bound : " + col.gameObject.GetComponent<Collider>().bounds.size);
+        //print("jump : " + (this.gameObject.transform.localPosition.y > col.gameObject.transform.position.y + this.gameObject.GetComponent<Collider>().bounds.size.y / 2));
+        if ((col.gameObject.tag == "ground" || col.gameObject.tag == "Player")
+            && (this.gameObject.transform.localPosition.y > col.gameObject.transform.position.y + this.gameObject.GetComponent<Collider>().bounds.size.y / 2))
         {
             HitFunction();
         }
     }
-    public void OnCollisionEnter(Collision collision)
+
+    public void OnCollisionEnter(Collision col)
     {
-        if(collision.gameObject.tag == "ground")
+
+        if(col.gameObject.tag == "ground")
         {
             control.Force = 0;
         }
@@ -111,6 +144,13 @@ public class PlayerController : MonoBehaviour
     public void HitFunction()
     {
         isJump = false;
-        
+    }
+
+    public void Reset()
+    {
+        Active = true;
+        HitFunction();
+        control.Force = 0;
+        rb.velocity = new Vector3(0,0,0);
     }
 }

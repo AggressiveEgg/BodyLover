@@ -1,4 +1,4 @@
 ﻿public static class CommonConfig 
 {
-    public static float Time = 10;
+    public static float Time = 600;
 }
