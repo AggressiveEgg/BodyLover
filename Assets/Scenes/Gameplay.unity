@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4444821, g: 0.49396926, b: 0.573276, a: 1}
+  m_IndirectSpecularColor: {r: 0.44448206, g: 0.49396896, b: 0.5732753, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15733,6 +15733,9 @@ MonoBehaviour:
       type: 2}
   - name: BoxBroken
     VFXObject: {fileID: 1942851514536100, guid: 136773cd76a284c2aa4d0f5cf3f6e5e2,
+      type: 2}
+  - name: Stun
+    VFXObject: {fileID: 1668076105725030, guid: d1522f164059643b2ac7e6f9883dba0e,
       type: 2}
 --- !u!4 &439947502 stripped
 Transform:
