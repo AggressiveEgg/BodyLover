@@ -50,7 +50,7 @@ public class Box : MonoBehaviour
         if (!isUnBrakeable)
             boxInfo.hp -= dmg;
         
-        print(boxInfo.hp);
+        //print(boxInfo.hp);
 
         if (boxInfo.hp <= 0)
         {

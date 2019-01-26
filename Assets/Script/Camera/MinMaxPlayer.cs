@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MinMaxPlayer : MonoBehaviour {
 
-    [SerializeField] PlayerController[] pos;
+    PlayerController[] pos;
     [SerializeField] float MaxPos;
     public GameObject min;
     public GameObject max;
@@ -14,11 +14,10 @@ public class MinMaxPlayer : MonoBehaviour {
 
 	void Start () 
     {
-        //
-        FindAllPlayer();
+
 	}
 
-    void FindAllPlayer()
+    public void FindAllPlayer()
     {
         pos = GameObject.FindObjectsOfType<PlayerController>();
     }
@@ -40,13 +39,22 @@ public class MinMaxPlayer : MonoBehaviour {
             {
                 min = p.gameObject;
                 low = p.gameObject.transform.position.y;
-                
             }
         }
     }
 
 	void Update ()
     {
+        if (pos == null)
+        {
+            if (GameplayManager.instance.gameState == GameState.Start)
+            {
+                print("All Player");
+                FindAllPlayer();
+            }
+            return;
+        }
+        
         Cal();
         calpos = Vector3.Lerp(min.transform.position, max.transform.position, 0.5f);
         float dif = Mathf.Abs(min.transform.position.y - max.transform.position.y);

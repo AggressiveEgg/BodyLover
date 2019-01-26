@@ -5,7 +5,7 @@ using UnityEngine;
 public class WhiteBlood : MonoBehaviour {
 
     int OnWalk = 0;
-    float speed = 30;
+    float speed = 50;
     Coroutine currentCoroutine;
     Rigidbody rd;
     bool isAction;

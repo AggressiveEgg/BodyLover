@@ -12,9 +12,9 @@ public enum GameState
 
 public class GameplayManager : MonoBehaviour 
 {
+    public static GameplayManager instance;
     public TimeManager timeManager;
     public BoxManager boxManager;
-
     public GameObject[] ListPlayer;
     public GameObject[] PlayerPoints;
     public bool GameStart = true;
@@ -22,6 +22,14 @@ public class GameplayManager : MonoBehaviour
 
 	void Start ()
 	{
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
         init();
         FindPlayer();
         gameState = GameState.Start;
