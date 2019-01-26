@@ -267,6 +267,7 @@ public class PlayerController : MonoBehaviour
         animation.resetAnim();
         animation.playAnimTriiger("IsHit");
         animation.playAnimBool("IsStun",true);
+        vfxManager.instance.PlayVFX("Stun",this.transform.position,1.0f);
         float Maxtime = CommonConfig.StunTime;
         float time = CommonConfig.StunTime;
         while (true)
