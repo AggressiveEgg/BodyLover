@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharacterSelect : MonoBehaviour {
 
     [SerializeField] int playerIndex;
-    [SerializeField] int ColorIndex;
+    public int ColorIndex;
 
     [SerializeField] Image ImgUI;
     [SerializeField] Text textUI;
@@ -15,6 +15,8 @@ public class CharacterSelect : MonoBehaviour {
     [SerializeField] bool isActive;
 
 
+
+    public bool isReady;
     int totalColor;
 
     private void Start()
@@ -33,7 +35,7 @@ public class CharacterSelect : MonoBehaviour {
     {
         if (isActive)
         {
-            if (MenuController.Instance.menustate == MenuState.Select)
+            if (MenuController.Instance.GM.gameState == GameState.Select)
             {
                 ChoosingCha();
                 print("Choosing");
@@ -41,33 +43,51 @@ public class CharacterSelect : MonoBehaviour {
         }
         else
         {
-            control.Item(() => { isActive = true; textUI.text = "P" + playerIndex; ImgUI.enabled = true; });
+            control.Item(() => { isActive = true; textUI.text = "P" + playerIndex; ImgUI.enabled = true;
+                
+                MenuController.Instance.totalPlayer++; });
         }
     }
+    
 
     void ChoosingCha()
     {
-        control.LeftDown(()=> {
-            if(ColorIndex > 0)
-            {
-                ColorIndex--;
-            }
-            else
-            {
-                ColorIndex = 0;
-            }
-    
-        });
-        control.RightDown(() =>
+        if (!isReady)
         {
-            if (ColorIndex < totalColor)
+            control.LeftDown(() =>
             {
-                ColorIndex++;
-            }
+                if (ColorIndex > 0)
+                {
+                    ColorIndex--;
+                }
+                else
+                {
+                    ColorIndex = 0;
+                }
+
+            });
+            control.RightDown(() =>
+            {
+                if (ColorIndex < totalColor)
+                {
+                    ColorIndex++;
+                }
+                else
+                {
+                    ColorIndex = totalColor;
+                }
+
+            });
+        }
+        control.Item(()=> {
+
+            if (!isReady)
+                MenuController.Instance.readyPlayer++;
             else
-            {
-                ColorIndex = totalColor;
-            }
+                MenuController.Instance.readyPlayer--;
+
+            MenuController.Instance.StartGame();
+                isReady = !isReady;
 
         });
         ImgUI.color = MenuController.Instance.GetSoldColor(ColorIndex);

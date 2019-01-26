@@ -14,6 +14,7 @@ public class MinMaxPlayer : MonoBehaviour {
 
 	void Start () 
     {
+        //
         FindAllPlayer();
 	}
 
@@ -35,10 +36,11 @@ public class MinMaxPlayer : MonoBehaviour {
             }
 
 
-            if (p.gameObject.transform.position.y < low)
+           else if (p.gameObject.transform.position.y < low)
             {
                 min = p.gameObject;
                 low = p.gameObject.transform.position.y;
+                
             }
         }
     }
