@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviour
 
             if (time > Maxtime * 0.75f)
             {
-                this.rb.velocity = (dir + Vector3.up) * 10.0f * time;
+                this.rb.velocity = (dir + Vector3.up) * 5.0f * time;
             }
 
             yield return new WaitForSeconds(Time.deltaTime);

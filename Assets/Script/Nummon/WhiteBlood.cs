@@ -48,7 +48,7 @@ public class WhiteBlood : MonoBehaviour {
         float range = 1.0f;
         Vector3 dir = new Vector3(OnWalk,0,0);
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position + Vector3.up, dir, out hit, range))
+        if (Physics.Raycast(this.transform.position, dir, out hit, range))
         {
             if (hit.collider.tag == "ground")
             {
