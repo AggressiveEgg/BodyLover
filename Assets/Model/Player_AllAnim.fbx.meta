@@ -232,12 +232,12 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Texture_Player
-    second: {fileID: 2800000, guid: 1f775a03e02bd0745b7156833b4904c2, type: 3}
+    second: {fileID: 2800000, guid: e5fde0ee62b5eec41ab80a02a508e608, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: weapontex
-    second: {fileID: 2800000, guid: f246ccbd21ef3e44d8f8a573793e6088, type: 3}
+    second: {fileID: 2800000, guid: f3384d9700f02d84a8684a8e75e85d15, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
