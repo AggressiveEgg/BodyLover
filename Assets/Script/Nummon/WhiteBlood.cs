@@ -83,8 +83,6 @@ public class WhiteBlood : MonoBehaviour {
 
     public void Force(Vector3 dir)
     {
-
-        //animation.RotateAttack();
         print("Force");
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
@@ -94,8 +92,6 @@ public class WhiteBlood : MonoBehaviour {
     IEnumerator Forcing(Vector3 dir)
     {
         isAction = true;
-        //animation.resetAnim();
-        //animation.playAnimTriiger("IsHit");
         float time = CommonConfig.HitTime;
         while (true)
         {
@@ -127,6 +123,15 @@ public class WhiteBlood : MonoBehaviour {
         else if (dir.x < 0)
         {
             modelCharacter.transform.eulerAngles = Vector3.Lerp(modelCharacter.transform.eulerAngles, new Vector3(modelCharacter.transform.eulerAngles.x, 215, 0), 5 * Time.deltaTime);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerController>().Stun(new Vector3(OnWalk, 0, 0));
+            StartWalk();
         }
     }
 }
