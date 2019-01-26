@@ -58,6 +58,17 @@ public class GameplayManager : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             ListPlayer[i].transform.position = PlayerPoints[i].transform.position;
+            ListPlayer[i].GetComponent<PlayerController>().Reset();
+        }
+    }
+
+    void EventEndGame()
+    {
+        int amount = ListPlayer.Length;
+        for (int i = 0; i < amount; i++)
+        {
+            ListPlayer[i].GetComponent<PlayerController>().Reset();
+            ListPlayer[i].GetComponent<PlayerController>().Active = false;
         }
     }
 
@@ -87,20 +98,22 @@ public class GameplayManager : MonoBehaviour
 
     IEnumerator IStartGame()
     {
-        resetGame();
+        EventEndGame();
         yield return new WaitForSeconds(3.0f);
+        resetGame();
         gameState = GameState.Playing;
         GameStart = true;
     }
 
     void OnEndGame()
     {
-        StartCoroutine(IStartGame());
+        StartCoroutine(IEndGame());
         GameStart = false;
     }
 
     IEnumerator IEndGame()
     {
+        EventEndGame();
         yield return new WaitForSeconds(3.0f);
         gameState = GameState.Start;
         GameStart = true;

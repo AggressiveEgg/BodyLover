@@ -98,33 +98,44 @@ public class Controller : MonoBehaviour
 
     public void MoveController(System.Action action)
     {
-        if (Input.GetAxis(dpad) > 0.3|| Input.GetAxis(dpad) < -0.3)
+        if (Input.GetAxis(dpad) > 0.3 || Input.GetAxis(dpad) < -0.3)
         {
-            if(Mathf.Abs(Force)<10)
-            Force += (muti * Time.deltaTime)*Input.GetAxis(dpad);
+            if (Mathf.Abs(Force) < 10)
+                Force += (muti * Time.deltaTime) * Input.GetAxis(dpad);
         }
         else if (Input.GetAxis(horizontal) > 0.3 || Input.GetAxis(horizontal) < -0.3)
         {
             if (Mathf.Abs(Force) < 10)
                 Force += (muti * Time.deltaTime) * Input.GetAxis(horizontal);
         }
-        else if(Input.GetKey(left))
+        else if (Input.GetKey(left))
         {
             if (Force > -10)
                 Force -= muti * Time.deltaTime;
         }
-        else if(Input.GetKey(right))
+        else if (Input.GetKey(right))
         {
             if (Force < 10)
                 Force += muti * Time.deltaTime;
         }
         else
-        { if (Force > 0)
+        {
+            if (Force > 0)
+            {
                 Force -= muti * Time.deltaTime;
+                if (Force <= 0)
+                    Force = 0;
+            }
             else if (Force < 0)
+            {
                 Force += muti * Time.deltaTime;
+                if (Force >= 0)
+                    Force = 0;
+            }
             else
-            { Force = 0; }
+            {
+                Force = 0;
+            }
         }
     }
 
