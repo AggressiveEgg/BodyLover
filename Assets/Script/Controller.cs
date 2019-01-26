@@ -89,7 +89,7 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            Debug.Log("No NoAction");
+            //Debug.Log("No NoAction");
             return;
         }
     }
@@ -102,7 +102,7 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            Debug.Log("No NoAction");
+            //Debug.Log("No NoAction");
             return;
         }
     }
