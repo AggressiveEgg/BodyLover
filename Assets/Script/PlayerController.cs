@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         if (!Active)
             return;
         
+        checkGround();
         control.MoveController(null);
         ForceToDirection();
         MoveTarget();
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
         if (!isJump)
         {
             float moveX = Mathf.Clamp(speed * control.Force, -maxSpeed, maxSpeed);
+            //print(moveX);
             rb.velocity = new Vector3(moveX, rb.velocity.y);   
         }
         else if(isJump)
@@ -76,8 +78,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                isWall = true;
-                rb.velocity = new Vector3(0, -10, 0);
+                //isWall = true;
+                rb.velocity = new Vector3(0, 0, 0);
             }
         }
     }
@@ -93,41 +95,25 @@ public class PlayerController : MonoBehaviour
         return !(Physics.Raycast(this.transform.localPosition - new Vector3(0, this.GetComponent<Collider>().bounds.size.x/2, 0), Dir, out hit, range) || Physics.Raycast(this.transform.localPosition + new Vector3(0, this.GetComponent<Collider>().bounds.size.x / 2, 0), Dir, out hit, range));
     }
 
-    private void OnCollisionExit(Collision col)
+    void checkGround()
     {
-        /*if (col.gameObject.tag == "ground" )
+        if (!isJump || rb.velocity.y > 0.0f)
+            return;
+        
+        print(rb.velocity.y);
+        float range = 0.5f;
+        RaycastHit hit;
+        float sizeX = this.GetComponent<Collider>().bounds.size.x / 4;
+        Vector3 ray1 = new Vector3(sizeX,0,0);
+        if (Physics.Raycast(this.transform.position + ray1, Vector3.down , out hit, range) || Physics.Raycast(this.transform.position - ray1, Vector3.down, out hit, range))
         {
-            isJump = true;
-        }*/
-    }
-
-    public void OnCollisionStay(Collision col)
-    {
-        //print("Bound : " + col.gameObject.GetComponent<Collider>().bounds.size);
-        //print("jump : " + (this.gameObject.transform.localPosition.y > col.gameObject.transform.position.y + this.gameObject.GetComponent<Collider>().bounds.size.y / 2));
-
-    }
-
-    public void OnCollisionEnter(Collision col)
-    {
-        if ((col.gameObject.tag == "ground" /*|| col.gameObject.tag == "Player"*/)
-            && (this.gameObject.transform.localPosition.y >= col.gameObject.transform.localPosition.y)
-            && (this.gameObject.transform.localPosition.x > col.gameObject.transform.localPosition.x - col.gameObject.GetComponent<Collider>().bounds.size.x / 2)
-            && (this.gameObject.transform.localPosition.x < col.gameObject.transform.localPosition.x + col.gameObject.GetComponent<Collider>().bounds.size.x / 2))
-        {
-            Debug.DrawRay(col.transform.localPosition - new Vector3(col.gameObject.GetComponent<Collider>().bounds.size.x / 2,0,0), Vector3.up * col.gameObject.GetComponent<Collider>().bounds.size.x / 2, Color.green, 2.0f);
-            Debug.DrawRay(col.transform.localPosition + new Vector3(col.gameObject.GetComponent<Collider>().bounds.size.x / 2,0,0), Vector3.up * col.gameObject.GetComponent<Collider>().bounds.size.x / 2, Color.green, 2.0f);
-            Debug.DrawRay(col.transform.localPosition, Vector3.up * col.gameObject.GetComponent<Collider>().bounds.size.x / 2, Color.red, 2.0f);
-            print("Hit");
-            HitFunction();
+            if ((hit.collider.gameObject.tag == "ground" ))
+            {
+                Debug.DrawRay(this.transform.position + ray1, Vector3.down * range, Color.green, 2.0f);
+                Debug.DrawRay(this.transform.position - ray1, Vector3.down * range, Color.green, 2.0f);
+                HitFunction();
+            }
         }
-
-        /*
-        if(col.gameObject.tag == "ground")
-        {
-            print("ground");
-            control.Force = 0;
-        }*/
     }
 
     public void HitFunction()
