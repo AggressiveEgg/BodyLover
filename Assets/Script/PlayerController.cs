@@ -78,21 +78,15 @@ public class PlayerController : MonoBehaviour
         {
             float moveX = Mathf.Clamp(speed * control.Force, -maxSpeed, maxSpeed);
             animation.playAnimBool("IsRun",rb.velocity.x != 0);
-
             rb.velocity = new Vector3(moveX, rb.velocity.y);   
         }
         else if(isJump)
         {
-            
-            if (CanMove(rb.velocity.normalized) && !isWall)
+            print(control.Force);
+            if (CanMove(new Vector3(control.Force,0,0).normalized))
             {
                 float moveX = Mathf.Clamp(rb.velocity.x + (speed * (control.Force / 2)) / 2, -1 * (maxSpeed / 2), maxSpeed / 2);
                 rb.velocity = new Vector3(moveX, rb.velocity.y);
-            }
-            else
-            {
-                isWall = true;
-                rb.velocity = new Vector3(0, -10, 0);
             }
         }
     }
@@ -118,12 +112,12 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         float sizeX = this.GetComponent<Collider>().bounds.size.x / 4;
         Vector3 ray1 = new Vector3(sizeX,0,0);
-        if (Physics.Raycast(this.transform.position + ray1, Vector3.down , out hit, range) || Physics.Raycast(this.transform.position - ray1, Vector3.down, out hit, range))
+        if (Physics.Raycast(this.transform.position + ray1, Vector3.down, out hit, range) || Physics.Raycast(this.transform.position - ray1, Vector3.down, out hit, range))
         {
-            if ((hit.collider.gameObject.tag == "ground" ))
+            if ((hit.collider.gameObject.tag == "ground") || (hit.collider.gameObject.tag == "Player") )
             {
-                Debug.DrawRay(this.transform.position + ray1, Vector3.down * range, Color.green, 2.0f);
-                Debug.DrawRay(this.transform.position - ray1, Vector3.down * range, Color.green, 2.0f);
+                //Debug.DrawRay(this.transform.position + ray1, Vector3.down * range, Color.green, 2.0f);
+                //Debug.DrawRay(this.transform.position - ray1, Vector3.down * range, Color.green, 2.0f);
                 HitFunction();
             }
         }

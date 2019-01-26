@@ -130,7 +130,10 @@ public class WhiteBlood : MonoBehaviour {
     {
         if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerController>().Stun(new Vector3(OnWalk, 0, 0));
+            Vector3 dir = collision.gameObject.transform.position - this.transform.position;
+            dir.y = 0;
+            dir.z = 0;
+            collision.gameObject.GetComponent<PlayerController>().Stun(dir.normalized);
             StartWalk();
         }
     }
