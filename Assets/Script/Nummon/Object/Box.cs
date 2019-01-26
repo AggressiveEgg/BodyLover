@@ -88,6 +88,7 @@ public class Box : MonoBehaviour
         }
         else
         {
+            BoxBroken();
             vfxManager.instance.PlayVFX("BoxBroken",this.transform.position,1.0f);
             refresh();
         }
