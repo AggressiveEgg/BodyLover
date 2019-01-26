@@ -7,7 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class BoxInfo
 {
-    int MaxHp;
+    public int MaxHp;
     public int hp;
     public bool Active = true;
 
@@ -49,6 +49,8 @@ public class Box : MonoBehaviour
             return;
         if (!isUnBrakeable)
             boxInfo.hp -= dmg;
+        
+        print(boxInfo.hp);
 
         if (boxInfo.hp <= 0)
         {
@@ -57,6 +59,8 @@ public class Box : MonoBehaviour
     }
     public void InitBox()
     {
+        boxInfo.reset();
+
         Renderer m = GetComponent<MeshRenderer>();
 
         if (isUnBrakeable)
