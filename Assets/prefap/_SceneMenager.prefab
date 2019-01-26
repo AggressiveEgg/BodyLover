@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09739287ce15f447acabb588fccd1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followobj: {fileID: 0}
   isSkipSelect: 0
   StartMenu: {fileID: 0}
   SelectCanvas: {fileID: 0}
@@ -71,6 +72,21 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e1e4edcee36d2104b899013e1ac504ed, type: 2}
   - {fileID: 2100000, guid: 330ca20315dc0be41b5bf7d452ebf58a, type: 2}
   - {fileID: 2100000, guid: cd52d368a5333774e826b0715d80d72b, type: 2}
+  Body:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Arm:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   GM: {fileID: 0}
   totalPlayer: 0
   readyPlayer: 0
+  player:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
