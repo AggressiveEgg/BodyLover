@@ -48,12 +48,11 @@ public class PlayerController : MonoBehaviour
 
     public void ForceToDirection()
     {
-        control.Jump(() => {
+        control.Jump(() => 
+        {
             if (!isJump)
             {
                 isJump = true;
-                
-                // gameObject.transform.LookAt(direction.transform);
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
             }
         });
@@ -62,32 +61,22 @@ public class PlayerController : MonoBehaviour
     }
     public void MoveTarget()
     {
-        if (Mathf.Abs(rb.velocity.x) < maxSpeed && !isJump)
+        if (!isJump)
         {
-            //float force = Mathf.Abs(control.Dpad+)
-            rb.velocity = new Vector3(speed * control.Force, rb.velocity.y);
-            //control.Left(() =>
-            //{if(speed < maxSpeed)
-            //    speed += 2;
-            //    rb.velocity = new Vector3(speed*, rb.velocity.y);
-                
-            //},()=> {
-            //    speed = 0;
-            //});
-            //control.Right(() =>
-            //{
-            //    if (speed < maxSpeed)
-            //        speed += 2;
-            //    rb.velocity = new Vector3(speed , rb.velocity.y);
-            //},()=> {
-            //    speed = 0;
-            //});
-            
+            print("WalkOnGround");
+            float moveX = Mathf.Clamp(speed * control.Force, -maxSpeed, maxSpeed);
+            //print(moveX);
+            rb.velocity = new Vector3(moveX, rb.velocity.y);   
         }
-        else if(Mathf.Abs(rb.velocity.x) < maxSpeed&&isJump)
+        else if(isJump)
         {
-            if(CanMove(rb.velocity.normalized))
-                rb.velocity = new Vector3(rb.velocity.x+(speed * (control.Force/2))/2, rb.velocity.y);
+            if (CanMove(rb.velocity.normalized))
+            {
+                print("WalkOnAir");
+                float moveX = Mathf.Clamp(rb.velocity.x + (speed * (control.Force / 2)) / 2, -1 * (maxSpeed / 2), maxSpeed/2);
+                //print(moveX);
+                rb.velocity = new Vector3(moveX , rb.velocity.y);
+            }
         }
     }
 
@@ -96,19 +85,17 @@ public class PlayerController : MonoBehaviour
         Dir.x = Mathf.Round(Dir.x);
         Dir.y = 0;
         Dir.z = 0;
-        print(Dir);
 
         RaycastHit hit;
         float range = 2.5f;
-        print("target point : " + this.transform.position + (Dir * range) + "results : " + (this.transform.position + (Dir * range)));
         if (Physics.Raycast(transform.position, Dir, out hit, range))
         {
-            Debug.DrawRay(transform.position, Dir * range, Color.green,2.0f);
+            Debug.DrawRay(transform.position, Dir * range, Color.red,2.0f);
             return false;
         }
         else
         {
-            Debug.DrawRay(transform.position, Dir * range, Color.red,2.0f);
+            Debug.DrawRay(transform.position, Dir * range, Color.green,2.0f);
             return true;
         }
 
@@ -116,31 +103,41 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit(Collision col)
     {
-        if (col.gameObject.tag == "ground" )
+        /*if (col.gameObject.tag == "ground" )
         {
             isJump = true;
-        }
+        }*/
     }
 
     public void OnCollisionStay(Collision col)
     {
         //print("Bound : " + col.gameObject.GetComponent<Collider>().bounds.size);
         //print("jump : " + (this.gameObject.transform.localPosition.y > col.gameObject.transform.position.y + this.gameObject.GetComponent<Collider>().bounds.size.y / 2));
-        if ((col.gameObject.tag == "ground" || col.gameObject.tag == "Player")
-            && (this.gameObject.transform.localPosition.y > col.gameObject.transform.position.y + this.gameObject.GetComponent<Collider>().bounds.size.y / 2))
-        {
-            HitFunction();
-        }
+
     }
 
     public void OnCollisionEnter(Collision col)
     {
+        if ((col.gameObject.tag == "ground" /*|| col.gameObject.tag == "Player"*/)
+            && (this.gameObject.transform.localPosition.y >= col.gameObject.transform.localPosition.y)
+            && (this.gameObject.transform.localPosition.x > col.gameObject.transform.localPosition.x - col.gameObject.GetComponent<Collider>().bounds.size.x / 2)
+            && (this.gameObject.transform.localPosition.x < col.gameObject.transform.localPosition.x + col.gameObject.GetComponent<Collider>().bounds.size.x / 2))
+        {
+            Debug.DrawRay(col.transform.localPosition - new Vector3(col.gameObject.GetComponent<Collider>().bounds.size.x / 2,0,0), Vector3.up * col.gameObject.GetComponent<Collider>().bounds.size.x / 2, Color.green, 2.0f);
+            Debug.DrawRay(col.transform.localPosition + new Vector3(col.gameObject.GetComponent<Collider>().bounds.size.x / 2,0,0), Vector3.up * col.gameObject.GetComponent<Collider>().bounds.size.x / 2, Color.green, 2.0f);
+            Debug.DrawRay(col.transform.localPosition, Vector3.up * col.gameObject.GetComponent<Collider>().bounds.size.x / 2, Color.red, 2.0f);
+            print("Hit");
+            HitFunction();
+        }
 
+        /*
         if(col.gameObject.tag == "ground")
         {
+            print("ground");
             control.Force = 0;
-        }
+        }*/
     }
+
     public void HitFunction()
     {
         isJump = false;
