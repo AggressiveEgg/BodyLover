@@ -11,6 +11,8 @@ public class PlayerStat  {
     int hp;
     int maxhp;
 
+    Item inventory;
+
     public bool isStun = false;
     public PlayerStat()
     {
@@ -19,13 +21,14 @@ public class PlayerStat  {
 
     public float MaxSpeed
     {
-        get { return MaxSpeed * itemEffect; }
+        get { return maxSpeed * itemEffect; }
     }
     
     public void SetItemEffect(float effect)
     {
         itemEffect = effect;
     }
+
 
     
 

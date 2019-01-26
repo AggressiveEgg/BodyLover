@@ -26,6 +26,9 @@ public class Controller : MonoBehaviour
     public bool isDpadPressed;
     public float Force;
     float muti = 30;
+
+    bool isRPadDown;
+    bool isLPadDown;
     //[SerializeField] PlayerIndex playerIndex;
 
     //GamePadState state;
@@ -67,6 +70,7 @@ public class Controller : MonoBehaviour
         dpad = "HDpad" + index;
     }
 
+
     public float Horizontal
     {
         get { return Input.GetAxis(horizontal); }
@@ -100,6 +104,7 @@ public class Controller : MonoBehaviour
         {
             if (Mathf.Abs(Force) < 10)
                 Force += (muti * Time.deltaTime) * Input.GetAxis(dpad);
+            print("press DPAD");
         }
         else if (Input.GetAxis(horizontal) > 0.3 || Input.GetAxis(horizontal) < -0.3)
         {
@@ -177,7 +182,33 @@ public class Controller : MonoBehaviour
                 return;
         }
     }
+    public void RightDown(System.Action action)
 
+    {
+        if (Input.GetKeyDown(right) || (Input.GetAxis(dpad) == 1))
+        {
+            if (action != null && !isRPadDown)
+                action();
+            isRPadDown = true;
+        }
+        else
+        {
+            isRPadDown = false;
+        }
+    }
+    public void LeftDown(System.Action action)
+    {
+        if (Input.GetKeyDown(left) || (Input.GetAxis(dpad) == -1))
+        {
+            if (action != null&& !isLPadDown)
+                action();
+            isLPadDown = true;
+        }
+        else
+        {
+            isLPadDown = false;
+        }
+    }
     public void Item(System.Action action)
     {
         if (Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(kcAtk)))
