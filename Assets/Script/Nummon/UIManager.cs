@@ -9,10 +9,12 @@ public class UIManager : MonoBehaviour
     public GameplayManager gameManager;
     public TimeUI timeUI;
     public DebugText DebugText;
+    public GameObject UIEndingOBJ;
 
     public void Start()
     {
         DebugText.init(this);
+        UIEnding(false);
     }
 
     public void Update () 
@@ -28,6 +30,12 @@ public class UIManager : MonoBehaviour
             DebugText.update();
         }
 	}
+
+    public void UIEnding(bool on)
+    {
+        if(UIEndingOBJ != null)
+            UIEndingOBJ.SetActive(on);
+    }
 }
 
 [System.Serializable]

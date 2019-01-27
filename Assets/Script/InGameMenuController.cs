@@ -16,6 +16,9 @@ public class InGameMenuController : MonoBehaviour {
 
     public Slider[] Progress;
 
+    public float currentValue;
+    public float FinalValue;
+
     public PlayerController[] PlayerPos;
     public Transform finishPos;
     private void Awake()
@@ -24,7 +27,8 @@ public class InGameMenuController : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start () 
+    {
        // PlayerPos = GameObject.FindObjectsOfType<PlayerController>();
         
 	}
@@ -42,6 +46,7 @@ public class InGameMenuController : MonoBehaviour {
             }
           
         }
+        FinalValue = MaxValues;
     }
     public void StartUpdateGuage()
     {
@@ -55,8 +60,6 @@ public class InGameMenuController : MonoBehaviour {
     { float maxY = 0;
         for (int i = 1; i < MenuController.Instance.totalPlayer+1 ; i++)
         {
-            
-
             if(maxY < PlayerPos[i-1].gameObject.transform.position.y)
             {
                 maxY = PlayerPos[i-1].gameObject.transform.position.y;
@@ -66,6 +69,8 @@ public class InGameMenuController : MonoBehaviour {
 
        
         }
+        currentValue = maxY;
+
         print("Update Guage");
 
     }

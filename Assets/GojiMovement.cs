@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class movement
 {
-    int MaxHp;
+    public int MaxHp;
     public int hp;
 
     public float speed;
@@ -27,16 +27,23 @@ public class GojiMovement : MonoBehaviour
 
     [SerializeField] Coroutine currentCoro;
 
+    public GameObject GojiAndFriend;
+    List<GameObject> friends;
+
     void Start()
     {
-        init();
+        //init();
     }
 
     public void init()
     {
+        setMaterials(true);
         movement = new movement();
+        friends = new List<GameObject>(); 
         movement.isAtive = true;
         selectBoxToGo();
+        this.GetComponent<Rigidbody>().useGravity = true;
+        this.GetComponent<Rigidbody>().isKinematic = false;
     }
 
     void Update()
@@ -80,6 +87,8 @@ public class GojiMovement : MonoBehaviour
     IEnumerator Moving()
     {
         float NearDis = Mathf.Infinity;
+        vfxManager.instance.PlayVFX("Jump", this.transform.position, 0.5f);
+
         yield return new WaitForSeconds(0);
         while(true)
         {
@@ -97,6 +106,7 @@ public class GojiMovement : MonoBehaviour
             yield return null;
         }
         float sec = Random.Range(4, 8);
+        sec -= Mathf.Abs(movement.MaxHp - movement.hp) / 2;
         yield  return new WaitForSeconds(sec);
         selectBoxToGo();
     }
@@ -107,6 +117,13 @@ public class GojiMovement : MonoBehaviour
             return;
         movement.isAtive = false;
         movement.hp -= dmg;
+
+        GameplayManager.instance.boxManager.resetAllBox();
+        if(movement.hp == 4 || movement.hp == 2 || movement.hp == 1)
+        {
+            SpawnWhiteBlood();
+        }
+
         if (movement.hp <= 0)
         {
             OnEnd();
@@ -121,8 +138,9 @@ public class GojiMovement : MonoBehaviour
 
     IEnumerator Stuning()
     {
-        print("Goji has Stun");  
-        vfxManager.instance.PlayVFX("Stun", this.transform.position, 3.0f);
+        print("Goji has Stun");
+        GameObject vfx = vfxManager.instance.PlayVFX("Stun", this.transform.position, 3.0f);
+        vfx.transform.SetParent(this.transform);
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
         this.GetComponent<Rigidbody>().useGravity = false;
         yield return new WaitForSeconds(3);
@@ -141,8 +159,42 @@ public class GojiMovement : MonoBehaviour
 
     IEnumerator Ending()
     {
+        CameraFollow.instance.ChangeMode(1,this.gameObject);
+        GameObject vfx = vfxManager.instance.PlayVFX("BoomEnding",this.transform.position,3.0f);
+        vfx.transform.SetParent(this.transform);
         this.GetComponent<Rigidbody>().useGravity = false;
-        yield return new WaitForSeconds(3);
+        this.GetComponent<Rigidbody>().isKinematic = true;
+        HideAll();
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(1);
+        vfxManager.instance.PlayVFX("Jump", this.transform.position, 0.5f);
+        setMaterials(false);
+        Time.timeScale = 1.0f;
+        yield return new WaitForSeconds(1);
+        CameraFollow.instance.ChangeMode(0);
+        GameplayManager.instance.gameState = GameState.End;
+        GameplayManager.instance.GameStart = true;
     }
 
+    void SpawnWhiteBlood()
+    {
+        GameObject newFriend = Instantiate(GojiAndFriend) as GameObject;
+        newFriend.transform.position = this.transform.position - Vector3.down;
+        friends.Add(newFriend);
+    }
+
+    void HideAll()
+    {
+        int amount = friends.Count;
+        for (int i = 0; i < amount; i++)
+        {
+            Destroy(friends[i]);
+        }
+    }
+
+    void setMaterials(bool on)
+    {
+        MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
+        renderer.enabled = on;
+    }
 }

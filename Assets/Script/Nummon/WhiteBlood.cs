@@ -50,7 +50,7 @@ public class WhiteBlood : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(this.transform.position, dir, out hit, range))
         {
-            if (hit.collider.tag == "ground")
+            if (hit.collider.tag == "ground" || hit.collider.tag == "Enemy")
             {
                 StartWalk();
             }

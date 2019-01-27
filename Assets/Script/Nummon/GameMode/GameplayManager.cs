@@ -8,6 +8,7 @@ public enum GameState
     CutScene,
     Playing,
     GoJi,
+    GojiFight,
     End
 }
 
@@ -16,6 +17,8 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager instance;
     public TimeManager timeManager;
     public BoxManager boxManager;
+    public UIManager UIManager;
+
     public GameObject[] ListPlayer;
     public GameObject[] PlayerPoints;
     public GameObject[] GoJiPoints;
@@ -68,11 +71,14 @@ public class GameplayManager : MonoBehaviour
 
     void MoveToGoji()
     {
+        GojiMovement goji =GameObject.FindObjectOfType<GojiMovement>();
+        if(goji != null)
+            goji.init();
         boxManager.resetAllBox();
         timeManager.reset();
         MovePlayerToGojiPoint();
 
-        gameState = GameState.Playing;
+        gameState = GameState.GojiFight;
         GameStart = true;
     }
 
@@ -115,6 +121,10 @@ public class GameplayManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 timeManager.Update();
+                if(InGameMenuController.Instance.currentValue >= InGameMenuController.Instance.FinalValue)
+                {
+                    gameState = GameState.GoJi;
+                }
                 break;
             case GameState.End:
                 OnEndGame();
@@ -151,7 +161,10 @@ public class GameplayManager : MonoBehaviour
     IEnumerator IEndGame()
     {
         EventEndGame();
-        yield return new WaitForSeconds(0.0f);
+        UIManager.UIEnding(true);
+        yield return new WaitForSeconds(3.0f);
+        UIManager.UIEnding(false);
+        yield return new WaitForSeconds(1.0f);
         gameState = GameState.Start;
         GameStart = true;
     }
