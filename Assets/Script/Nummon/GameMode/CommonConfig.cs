@@ -1,7 +1,7 @@
 ﻿public static class CommonConfig 
 {
     // GameSetting
-    public static float Time = 9999999;
+    public static float Time = 300;
     // Movement
     public static float MaxSpeed = 5.0f;
     public static float Jump = 12.0f;

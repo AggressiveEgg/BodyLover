@@ -1,6 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[System.Serializable]
+public class SoundFX
+{
+    public string name;
+    public AudioClip audio;
+    public float volume;
+
+
+}
+
 
 public class AnimEvent : MonoBehaviour {
 
@@ -12,6 +22,7 @@ public class AnimEvent : MonoBehaviour {
     public AudioSource AS;
     public AudioSource ASBG;
     public AudioClip[] sound;
+    public SoundFX[] fx;
 
 
    public void HideSelf()

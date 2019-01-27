@@ -90,7 +90,7 @@ public class CharacterSelect : MonoBehaviour {
                 isReady = !isReady;
 
         });
-        ImgUI.color = MenuController.Instance.GetSoldColor(ColorIndex);
+        ImgUI.sprite = InGameMenuController.Instance.pIcon[ColorIndex];
 
     }
 
