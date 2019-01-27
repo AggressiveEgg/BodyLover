@@ -23,7 +23,7 @@ public class MenuController : MonoBehaviour {
     public int readyPlayer;
     public GameObject[] player;
     Vector3 OffscreenPos = new Vector2(1280, 0);
-
+    public GameObject GOUP;
     int count;
     private void Awake()
     {
@@ -103,6 +103,10 @@ public class MenuController : MonoBehaviour {
         SelectCanvas.localPosition = OffscreenPos;
         CutSceneCanvas.localPosition = OffscreenPos;
     }
+    public void ShowGoUp()
+    {
+        GOUP.SetActive(true);
+    }
     void PressToStart()
     {
         if (isSkipSelect)
@@ -145,7 +149,8 @@ public class MenuController : MonoBehaviour {
 
         InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
         InGameMenuController.Instance.StartUpdateGuage();
-
+        AnimEvent.Instance.setBG(10);
+        ShowGoUp();
         yield return null;
         //print("5");
     }

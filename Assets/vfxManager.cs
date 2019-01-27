@@ -27,7 +27,7 @@ public class vfxManager : MonoBehaviour {
         }
 	}
 	
-    public void PlayVFX(string name,Vector3 pos,float time)
+    public void PlayVFX(string name,Vector3 pos,float time,int soundIndex = 0)
     {
         int index = vfxInfos.FindIndex(x => x.name == name );
         if(index != -1)
@@ -35,6 +35,7 @@ public class vfxManager : MonoBehaviour {
             GameObject newVFX = Instantiate(vfxInfos[index].VFXObject) as GameObject;
             newVFX.transform.position = pos;
             Destroy(newVFX,time);
+            AnimEvent.Instance.PlaySound(soundIndex);
         }
 
     }

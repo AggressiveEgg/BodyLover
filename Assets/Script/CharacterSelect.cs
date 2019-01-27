@@ -41,7 +41,7 @@ public class CharacterSelect : MonoBehaviour {
                 print("Choosing");
             }
         }
-        else
+        else if (!isActive)
         {
             control.Item(() => { isActive = true; textUI.text = "P" + playerIndex; ImgUI.enabled = true;
                 

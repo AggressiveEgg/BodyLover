@@ -28,17 +28,20 @@ public class MinMaxPlayer : MonoBehaviour {
         float low = Mathf.Infinity;
         foreach (PlayerController p in pos)
         {
-            if (p.gameObject.transform.position.y > high)
+            if (p.isActiveAndEnabled)
             {
-                max = p.gameObject;
-                high = p.gameObject.transform.position.y;
-            }
+                if (p.gameObject.transform.position.y > high)
+                {
+                    max = p.gameObject;
+                    high = p.gameObject.transform.position.y;
+                }
 
 
-           if (p.gameObject.transform.position.y < low)
-            {
-                min = p.gameObject;
-                low = p.gameObject.transform.position.y;
+                if (p.gameObject.transform.position.y < low)
+                {
+                    min = p.gameObject;
+                    low = p.gameObject.transform.position.y;
+                }
             }
         }
     }
