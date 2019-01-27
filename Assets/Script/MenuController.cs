@@ -120,34 +120,36 @@ public class MenuController : MonoBehaviour {
         });
 
     }
+
     IEnumerator Count()
     {
-        yield return new WaitForSeconds(1);
-        count--;
-        if(count >0)
-            StartCoroutine(Count());
-        else
+        //print("1");
+        yield return new WaitForSeconds(count);
+        for (int i = player.Length - 1; i >= totalPlayer; i--)
         {
-            for(int i = player.Length-1;i>=totalPlayer;i--)
-            {
-                player[i].SetActive(false);
-            }
-
-            GM.gameState = GameState.Start;
-            GM.GameStart = true;
-
-            SetPlayerMatt();
-            StartPlaying(); InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
-            InGameMenuController.Instance.StartUpdateGuage();
-            followobj.SetActive(true);
-
-
-            
-            
-          
+            player[i].SetActive(false);
         }
+        //print("2");
+        SetPlayerMatt();
+        StartPlaying();
+        //print("3");
 
+        followobj.SetActive(true);
+
+        //print("Set Start true");
+        GM.gameState = GameState.Start;
+        GM.GameStart = true;
+
+        //print("4");
+        yield return null;
+
+        InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
+        InGameMenuController.Instance.StartUpdateGuage();
+
+        yield return null;
+        //print("5");
     }
+
     public void CountDown()
     {
         StartCoroutine(Count());
@@ -161,7 +163,7 @@ public class MenuController : MonoBehaviour {
             player[i].SetActive(true);
             InGameMenuController.Instance.PlayerIcon[i].transform.parent.gameObject.SetActive(true);
             InGameMenuController.Instance.Progress[i+1].gameObject.SetActive(true);
-            print("setMatt " + i);
+            //print("setMatt " + i);
         }
     }
     void SetMatt(int index,Material matt)
