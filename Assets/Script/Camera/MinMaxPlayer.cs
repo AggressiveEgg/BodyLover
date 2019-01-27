@@ -82,6 +82,8 @@ public class MinMaxPlayer : MonoBehaviour {
         }
         
         Cal();
+        CheckPlayerLower();
+
         min = new Vector3(lowx,lowy,0);
         max = new Vector3(highx,highy,0);
         calpos = Vector3.Lerp(min, max, 0.5f);
@@ -89,9 +91,21 @@ public class MinMaxPlayer : MonoBehaviour {
 
         if (dif > 0 && dif < MaxPos)
         {
-            lastpos = dif;
+            lastpos = dif/2;
         }
 
         transform.position = new Vector3(calpos.x,calpos.y,calpos.z-lastpos) ;
 	}
+
+    void CheckPlayerLower()
+    {
+        float DisLowAndMax = Vector3.Distance(minY.transform.position, maxY.transform.position);
+        if (DisLowAndMax >= 10.0f)
+        {
+            if (!minY.GetComponent<PlayerController>().Active)
+                return;
+            minY.transform.position = maxY.transform.position + new Vector3(Random.Range(-1, 1), Random.Range(0, 1), 0);
+            minY.GetComponent<PlayerController>().Stun(new Vector3(Random.Range(-1, 1), Random.Range(0, 1), 0));
+        }
+    }
 }
