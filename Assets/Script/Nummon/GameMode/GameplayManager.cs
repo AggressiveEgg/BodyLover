@@ -9,6 +9,7 @@ public enum GameState
     Playing,
     GoJi,
     GojiFight,
+    GameOver,
     End
 }
 
@@ -71,7 +72,7 @@ public class GameplayManager : MonoBehaviour
 
     void MoveToGoji()
     {
-        GojiMovement goji =GameObject.FindObjectOfType<GojiMovement>();
+        GojiMovement goji = GameObject.FindObjectOfType<GojiMovement>();
         if(goji != null)
             goji.init();
         boxManager.resetAllBox();
@@ -118,6 +119,7 @@ public class GameplayManager : MonoBehaviour
         {
             case GameState.Start:
                 OnStartGame();
+                InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
                 break;
             case GameState.Playing:
                 timeManager.Update();
@@ -129,8 +131,12 @@ public class GameplayManager : MonoBehaviour
             case GameState.End:
                 OnEndGame();
                 break;
+            case GameState.GameOver:
+                OnGameOver();
+                break;
             case GameState.GoJi:
                 MoveToGoji();
+                InGameMenuController.Instance.InitBoss(GameObject.FindObjectOfType<GojiMovement>());
                 break;
             default:
                 break;
@@ -159,6 +165,22 @@ public class GameplayManager : MonoBehaviour
     }
 
     IEnumerator IEndGame()
+    {
+        EventEndGame();
+        UIManager.UIEnding(true);
+        yield return new WaitForSeconds(3.0f);
+        UIManager.UIEnding(false);
+        yield return new WaitForSeconds(1.0f);
+        Application.LoadLevel(1);
+    }
+
+    void OnGameOver()
+    {
+        StartCoroutine(IGameOver());
+        GameStart = false;
+    }
+
+    IEnumerator IGameOver()
     {
         EventEndGame();
         UIManager.UIEnding(true);

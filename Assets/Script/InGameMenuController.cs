@@ -21,6 +21,8 @@ public class InGameMenuController : MonoBehaviour {
 
     public PlayerController[] PlayerPos;
     public Transform finishPos;
+
+    public GojiMovement gj;
     private void Awake()
     {
         Instance = this;
@@ -30,8 +32,8 @@ public class InGameMenuController : MonoBehaviour {
     void Start () 
     {
        // PlayerPos = GameObject.FindObjectsOfType<PlayerController>();
-        
 	}
+
 	public void InitMenu(float MaxValues)
     {
         for(int i = 0;i<MenuController.Instance.totalPlayer+1;i++)
@@ -48,30 +50,49 @@ public class InGameMenuController : MonoBehaviour {
         }
         FinalValue = MaxValues;
     }
+
+    public void InitBoss(GojiMovement goji)
+    {
+        gj = goji;
+        Progress[0].maxValue = goji.movement.MaxHp;
+        Progress[0].value = goji.movement.hp;
+    }
+
     public void StartUpdateGuage()
     {
         InvokeRepeating("UpdateSlider", 1, 0.5f);
     }
+
     public void StopUpdateGuage()
     {
         CancelInvoke("UpdateSlider");
     }
+
     public void UpdateSlider()
-    { float maxY = 0;
-        for (int i = 1; i < MenuController.Instance.totalPlayer+1 ; i++)
+    {
+        if (GameplayManager.instance.gameState == GameState.Playing)
         {
-            if(maxY < PlayerPos[i-1].gameObject.transform.position.y)
+            float maxY = 0;
+            for (int i = 1; i < MenuController.Instance.totalPlayer + 1; i++)
             {
-                maxY = PlayerPos[i-1].gameObject.transform.position.y;
+                if (maxY < PlayerPos[i - 1].gameObject.transform.position.y)
+                {
+                    maxY = PlayerPos[i - 1].gameObject.transform.position.y;
+                }
+                Progress[0].value = maxY;
+                Progress[i].value = PlayerPos[i - 1].gameObject.transform.position.y;
+
+
             }
-            Progress[0].value = maxY;
-            Progress[i].value = PlayerPos[i-1].gameObject.transform.position.y;
-
-       
+            currentValue = maxY;
         }
-        currentValue = maxY;
-
-        //print("Update Guage");
+        else if (GameplayManager.instance.gameState == GameState.GojiFight)
+        {
+            if (gj != null)
+            {
+                Progress[0].value = gj.movement.hp;
+            }
+        }
     }
 
 }

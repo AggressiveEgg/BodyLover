@@ -25,7 +25,7 @@ public class TimeManager
         }
         else
         {
-            gameplay.gameState = GameState.End;
+            gameplay.gameState = GameState.GameOver;
             gameplay.GameStart = true;
             timeUp = true;
         }

@@ -142,8 +142,10 @@ public class GojiMovement : MonoBehaviour
         GameObject vfx = vfxManager.instance.PlayVFX("Stun", this.transform.position, 3.0f);
         vfx.transform.SetParent(this.transform);
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        this.GetComponent<Rigidbody>().isKinematic = true;
         this.GetComponent<Rigidbody>().useGravity = false;
         yield return new WaitForSeconds(3);
+        this.GetComponent<Rigidbody>().isKinematic = false;
         this.GetComponent<Rigidbody>().useGravity = true;
         movement.isAtive = true;
         selectBoxToGo();
