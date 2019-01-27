@@ -83,7 +83,7 @@ public class WhiteBlood : MonoBehaviour {
 
     public void Force(Vector3 dir)
     {
-        print("Force");
+        //print("Force");
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(Forcing(dir));

@@ -33,7 +33,7 @@ public class CharacterSelect : MonoBehaviour {
     }
     private void Update()
     {
-        if (isActive)
+        if (isActive && !isReady)
         {
             if (MenuController.Instance.GM.gameState == GameState.Select)
             {

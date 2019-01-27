@@ -128,19 +128,23 @@ public class MenuController : MonoBehaviour {
             StartCoroutine(Count());
         else
         {
-            for(int i = player.Length-1;i>totalPlayer;i--)
+            for(int i = player.Length-1;i>=totalPlayer;i--)
             {
                 player[i].SetActive(false);
             }
+
+            GM.gameState = GameState.Start;
+            GM.GameStart = true;
+
             SetPlayerMatt();
             StartPlaying(); InGameMenuController.Instance.InitMenu(InGameMenuController.Instance.finishPos.position.y);
             InGameMenuController.Instance.StartUpdateGuage();
             followobj.SetActive(true);
-            GM.gameState = GameState.Start;
-            GM.GameStart = true;
+
+
             
             
-           
+          
         }
 
     }
