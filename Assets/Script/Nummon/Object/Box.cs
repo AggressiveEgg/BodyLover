@@ -174,6 +174,11 @@ public class Box : MonoBehaviour
             {
                 hit.collider.GetComponent<PlayerController>().Stun(Dir);
             }
+
+            if (hit.collider.tag == "Goji")
+            {
+                hit.collider.GetComponent<GojiMovement>().StunGoji(1);
+            }
         }
         Debug.DrawRay(this.transform.position, Vector3.up * range, Color.red);
     }

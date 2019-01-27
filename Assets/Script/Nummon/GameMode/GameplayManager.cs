@@ -7,6 +7,7 @@ public enum GameState
     Select,
     CutScene,
     Playing,
+    GoJi,
     End
 }
 
@@ -17,6 +18,7 @@ public class GameplayManager : MonoBehaviour
     public BoxManager boxManager;
     public GameObject[] ListPlayer;
     public GameObject[] PlayerPoints;
+    public GameObject[] GoJiPoints;
     public bool GameStart = true;
     public GameState gameState;
 
@@ -40,6 +42,7 @@ public class GameplayManager : MonoBehaviour
     {
         ListPlayer = GameObject.FindGameObjectsWithTag("Player");
         PlayerPoints = GameObject.FindGameObjectsWithTag("PlayerPoint");
+        GoJiPoints = GameObject.FindGameObjectsWithTag("GoJiPoints");
     }
 
     public void init()
@@ -63,12 +66,32 @@ public class GameplayManager : MonoBehaviour
         MovePlayerToPoint();
     }
 
+    void MoveToGoji()
+    {
+        boxManager.resetAllBox();
+        timeManager.reset();
+        MovePlayerToGojiPoint();
+
+        gameState = GameState.Playing;
+        GameStart = true;
+    }
+
     void MovePlayerToPoint()
     {
         int amount = ListPlayer.Length;
         for (int i = 0; i < amount; i++)
         {
             ListPlayer[i].transform.position = PlayerPoints[i].transform.position;
+            ListPlayer[i].GetComponent<PlayerController>().Reset();
+        }
+    }
+
+    void MovePlayerToGojiPoint()
+    {
+        int amount = GoJiPoints.Length;
+        for (int i = 0; i < amount; i++)
+        {
+            ListPlayer[i].transform.position = GoJiPoints[i].transform.position;
             ListPlayer[i].GetComponent<PlayerController>().Reset();
         }
     }
@@ -95,6 +118,9 @@ public class GameplayManager : MonoBehaviour
                 break;
             case GameState.End:
                 OnEndGame();
+                break;
+            case GameState.GoJi:
+                MoveToGoji();
                 break;
             default:
                 break;
