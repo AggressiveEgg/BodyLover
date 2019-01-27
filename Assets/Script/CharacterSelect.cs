@@ -43,7 +43,7 @@ public class CharacterSelect : MonoBehaviour {
         }
         else if (!isActive)
         {
-            control.Item(() => { isActive = true; textUI.text = "P" + playerIndex; ImgUI.enabled = true;
+            control.Item(() => { isActive = true; textUI.text = "Player " + playerIndex; ImgUI.enabled = true;
                 
                 MenuController.Instance.totalPlayer++; });
         }
@@ -88,6 +88,7 @@ public class CharacterSelect : MonoBehaviour {
 
             MenuController.Instance.StartGame();
                 isReady = !isReady;
+            textUI.text = "Player " + playerIndex + "\n READY";
 
         });
         ImgUI.sprite = InGameMenuController.Instance.pIcon[ColorIndex];
