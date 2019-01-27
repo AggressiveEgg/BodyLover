@@ -49,7 +49,10 @@ public class Box : MonoBehaviour
             return;
         if (!isUnBrakeable)
             boxInfo.hp -= dmg;
-        
+        else
+        {
+            vfxManager.instance.PlayVFX("BoxNotBroken", this.transform.position, 1.0f, 2);
+        }
         //print(boxInfo.hp);
 
         if (boxInfo.hp <= 0)
@@ -89,7 +92,7 @@ public class Box : MonoBehaviour
         else
         {
             BoxBroken();
-            vfxManager.instance.PlayVFX("BoxBroken",this.transform.position,1.0f);
+            vfxManager.instance.PlayVFX("BoxBroken",this.transform.position,1.0f,4);
             refresh();
         }
         setMaterials(boxInfo.Active);

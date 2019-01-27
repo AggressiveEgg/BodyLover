@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
                 isJump = true;
                 animation.playAnimBool("IsJump", true);
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
-                vfxManager.instance.PlayVFX("Jump",this.transform.position,0.25f);
+                vfxManager.instance.PlayVFX("Jump",this.transform.position,0.25f,7);
             }
         });
 
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
                         {
                             hit.collider.GetComponent<PlayerController>().Force(Dir);
                             listP.Add(hit.collider.GetComponent<PlayerController>());
-                            vfxManager.instance.PlayVFX("Attack",hit.point,0.5f);
+                            vfxManager.instance.PlayVFX("Attack",hit.point,0.5f,1);
                         }
                     }
 
@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
                         {
                             hit.collider.GetComponent<WhiteBlood>().Force(Dir);
                             listE.Add(hit.collider.GetComponent<WhiteBlood>());
-                            vfxManager.instance.PlayVFX("Attack", hit.point, 0.5f);
+                            vfxManager.instance.PlayVFX("Attack", hit.point, 0.5f,1);
                         }
                     }
                 }
@@ -261,7 +261,7 @@ public class PlayerController : MonoBehaviour
         animation.resetAnim();
         animation.playAnimTriiger("IsHit");
         animation.playAnimBool("IsStun",true);
-        vfxManager.instance.PlayVFX("Stun",this.transform.position,1.0f);
+        vfxManager.instance.PlayVFX("Stun",this.transform.position,1.0f,12);
         float Maxtime = CommonConfig.StunTime;
         float time = CommonConfig.StunTime;
         while (true)
