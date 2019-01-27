@@ -71,8 +71,7 @@ public class InGameMenuController : MonoBehaviour {
         }
         currentValue = maxY;
 
-        print("Update Guage");
-
+        //print("Update Guage");
     }
 
 }

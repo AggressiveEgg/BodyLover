@@ -10,7 +10,7 @@ public class BoxInfo
     public int MaxHp;
     public int hp;
     public bool Active = true;
-
+    public float time = 0;
     public BoxInfo()
     {
         MaxHp = 1;
@@ -150,6 +150,28 @@ public class Box : MonoBehaviour
                 //print("pos box : " + this.gameObject.transform.localPosition);
                 //print("pos Player : " + collision.gameObject.transform.position);
                 BoxHit(1);
+            }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            if (collision.gameObject.transform.position.y > this.gameObject.transform.position.y - this.gameObject.GetComponent<Collider>().bounds.size.y / 2
+                && collision.gameObject.transform.position.y < this.gameObject.transform.position.y + this.gameObject.GetComponent<Collider>().bounds.size.y / 2
+                && (collision.gameObject.transform.position.x > this.gameObject.transform.position.x - this.gameObject.GetComponent<Collider>().bounds.size.x / 2)
+                && (collision.gameObject.transform.position.x < this.gameObject.transform.position.x + this.gameObject.GetComponent<Collider>().bounds.size.x / 2))
+            {
+                if(boxInfo.time  <= 1.0f)
+                {
+                    boxInfo.time += Time.deltaTime;
+                }
+                else
+                {
+                    OnShow(false);
+                    boxInfo.time = 0.0f;
+                }
             }
         }
     }
