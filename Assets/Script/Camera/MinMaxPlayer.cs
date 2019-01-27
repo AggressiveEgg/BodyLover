@@ -6,9 +6,16 @@ public class MinMaxPlayer : MonoBehaviour {
 
     PlayerController[] pos;
     [SerializeField] float MaxPos;
-    public GameObject min;
-    public GameObject max;
-
+    public GameObject minX;
+    public GameObject maxX;
+    public GameObject minY;
+    public GameObject maxY;
+    Vector3 min;
+    Vector3 max;
+    float highy;
+    float lowy;
+    float highx;
+    float lowx;
     Vector3 calpos;
     float lastpos;
 
@@ -24,24 +31,40 @@ public class MinMaxPlayer : MonoBehaviour {
 
     void Cal()
     {
-        float high = Mathf.NegativeInfinity;
-        float low = Mathf.Infinity;
+        highy = Mathf.NegativeInfinity;
+        lowy = Mathf.Infinity;
+
+        highx = Mathf.NegativeInfinity;
+        lowx = Mathf.Infinity;
+
         foreach (PlayerController p in pos)
         {
             if (p.isActiveAndEnabled)
             {
-                if (p.gameObject.transform.position.y > high)
+                if (p.gameObject.transform.position.y > highy)
                 {
-                    max = p.gameObject;
-                    high = p.gameObject.transform.position.y;
+                    maxY = p.gameObject;
+                    highy = p.gameObject.transform.position.y;
                 }
 
-
-                if (p.gameObject.transform.position.y < low)
+                if(p.gameObject.transform.position.x > highx)
                 {
-                    min = p.gameObject;
-                    low = p.gameObject.transform.position.y;
+                    maxX = p.gameObject;
+                    highx = p.gameObject.transform.position.x;
                 }
+
+                if (p.gameObject.transform.position.y < lowy)
+                {
+                    minY = p.gameObject;
+                    lowy = p.gameObject.transform.position.y;
+                }
+
+                if (p.gameObject.transform.position.x < lowx)
+                {
+                    minX = p.gameObject;
+                    lowx = p.gameObject.transform.position.x;
+                }
+
             }
         }
     }
@@ -59,8 +82,10 @@ public class MinMaxPlayer : MonoBehaviour {
         }
         
         Cal();
-        calpos = Vector3.Lerp(min.transform.position, max.transform.position, 0.5f);
-        float dif = Mathf.Abs(min.transform.position.y - max.transform.position.y);
+        min = new Vector3(lowx,lowy,0);
+        max = new Vector3(highx,highy,0);
+        calpos = Vector3.Lerp(min, max, 0.5f);
+        float dif = Vector3.Distance(min,max);
 
         if (dif > 0 && dif < MaxPos)
         {
