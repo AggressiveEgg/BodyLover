@@ -227,7 +227,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: phong2
-    second: {fileID: 2100000, guid: 7f5555c1113100c4c8d6daa32dc69048, type: 2}
+    second: {fileID: 2100000, guid: 330ca20315dc0be41b5bf7d452ebf58a, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule

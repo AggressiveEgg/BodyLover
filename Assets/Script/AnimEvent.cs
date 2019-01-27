@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 [System.Serializable]
 public class SoundFX
 {
@@ -43,5 +44,12 @@ public class AnimEvent : MonoBehaviour {
         ASBG.volume = value;
 
     }
+    public void AnimLoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
+
+
 
 }
+

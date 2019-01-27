@@ -58,7 +58,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 58e72b85be0ea5d4b8d3ec98bdfe32c6, type: 2}
+  - {fileID: 2100000, guid: 903ae0b98018f2d478b5bccf750a107e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxInfo:
+    MaxHp: 1
     hp: 1
     Active: 1
   BoxStyle:
