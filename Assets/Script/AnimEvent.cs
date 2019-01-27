@@ -23,6 +23,7 @@ public class AnimEvent : MonoBehaviour {
     public AudioSource AS;
     public AudioSource ASBG;
     public AudioClip[] sound;
+    public float[] soundVolume;
     public SoundFX[] fx;
 
 
@@ -32,7 +33,9 @@ public class AnimEvent : MonoBehaviour {
     }
     public void PlaySound(int index)
     {
-        AS.PlayOneShot(sound[index]);
+  
+        AS.PlayOneShot(sound[index],soundVolume[index]);
+       
     }
     public void setBG(int index)
     {

@@ -40,9 +40,9 @@ public class MenuController : MonoBehaviour {
 
     void Reset()
     {
-        ShowStart();
+        ShowSelect();
         count = countDown;
-        GM.gameState = GameState.Start;
+        GM.gameState = GameState.Select;
     }
 
     public Material GetChaColor(int index)
@@ -166,7 +166,7 @@ public class MenuController : MonoBehaviour {
         {
             SetMatt(i, GetChaColor(chaSeclet[i].ColorIndex));
             player[i].SetActive(true);
-            InGameMenuController.Instance.PlayerIcon[i].transform.parent.gameObject.SetActive(true);
+            InGameMenuController.Instance.PlayerIcon[i].transform.gameObject.SetActive(true);
             InGameMenuController.Instance.Progress[i+1].gameObject.SetActive(true);
             //print("setMatt " + i);
         }

@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
             return;
         
         if(timeUI.timeText != null)
-            timeUI.timeText.text = "time : " + gameManager.timeManager.currentTime;
+            timeUI.timeText.text = "time : " + (CommonConfig.Time - gameManager.timeManager.currentTime).ToString("0.00");
 
         if(DebugText != null)
         {

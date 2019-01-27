@@ -100,26 +100,26 @@ public class Controller : MonoBehaviour
 
     public void MoveController(System.Action action)
     {
-        if (Input.GetAxis(dpad) > 0.3 || Input.GetAxis(dpad) < -0.3)
+        if (Input.GetAxis(dpad) > 0.9 || Input.GetAxis(dpad) < -0.9)
         {
             if (Mathf.Abs(Force) < 10)
-                Force += (muti * Time.deltaTime) * Input.GetAxis(dpad);
+                Force = 10 * Mathf.RoundToInt(Input.GetAxis(dpad));// (muti * Time.deltaTime) * Input.GetAxis(dpad);
             print("press DPAD");
         }
-        else if (Input.GetAxis(horizontal) > 0.3 || Input.GetAxis(horizontal) < -0.3)
+        else if (Input.GetAxis(horizontal) > 0.9 || Input.GetAxis(horizontal) < -0.9)
         {
             if (Mathf.Abs(Force) < 10)
-                Force += (muti * Time.deltaTime) * Input.GetAxis(horizontal);
+                Force = 10 * Mathf.RoundToInt(Input.GetAxis(dpad));
         }
         else if (Input.GetKey(left))
         {
             if (Force > -10)
-                Force -= muti * Time.deltaTime;
+                Force = -10;
         }
         else if (Input.GetKey(right))
         {
             if (Force < 10)
-                Force += muti * Time.deltaTime;
+                Force = 10;
         }
         else
         {
