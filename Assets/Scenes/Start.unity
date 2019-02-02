@@ -1348,6 +1348,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 99745bf8e8d2184419c31b24d0bc950c, type: 3}
   - {fileID: 8300000, guid: 0b62133711e200a48b85bbaf98feb307, type: 3}
   - {fileID: 8300000, guid: 350c454b7fd2b4346b56dc9fe1d718d4, type: 3}
+  soundVolume:
+  - 1
+  - 1
+  - 1
+  fx: []
 --- !u!1 &1539698610
 GameObject:
   m_ObjectHideFlags: 0

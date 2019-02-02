@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
-
+#if UNITYEDITOR
 [CustomEditor(typeof(Box))]
 public class BoxEditor : Editor
 {
@@ -15,3 +15,4 @@ public class BoxEditor : Editor
         
     }
 }
+#endif

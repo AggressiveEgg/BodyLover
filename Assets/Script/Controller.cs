@@ -109,7 +109,7 @@ public class Controller : MonoBehaviour
         else if (Input.GetAxis(horizontal) > 0.9 || Input.GetAxis(horizontal) < -0.9)
         {
             if (Mathf.Abs(Force) < 10)
-                Force = 10 * Mathf.RoundToInt(Input.GetAxis(dpad));
+                Force = 10 * Mathf.RoundToInt(Input.GetAxis(horizontal));
         }
         else if (Input.GetKey(left))
         {
@@ -125,13 +125,13 @@ public class Controller : MonoBehaviour
         {
             if (Force > 0)
             {
-                Force -= muti * Time.deltaTime;
+                Force -= 2;
                 if (Force <= 0)
                     Force = 0;
             }
             else if (Force < 0)
             {
-                Force += muti * Time.deltaTime;
+                Force += 2;
                 if (Force >= 0)
                     Force = 0;
             }

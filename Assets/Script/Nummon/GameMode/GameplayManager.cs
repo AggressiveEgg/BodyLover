@@ -101,6 +101,7 @@ public class GameplayManager : MonoBehaviour
             ListPlayer[i].transform.position = GoJiPoints[i].transform.position;
             ListPlayer[i].GetComponent<PlayerController>().Reset();
         }
+        AnimEvent.Instance.PlaySound(16);
     }
 
     void EventEndGame()
